@@ -1,0 +1,166 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  background-color: #1b2229;
+}
+
+.panel {
+  position: absolute;
+  top: 7vh;
+  z-index: 4000;
+  background-color: #fff;
+  width: 346px;
+  padding: 15px;
+  border-radius: 3px;
+  color: #29323c;
+  right: 15px;
+  margin: auto;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.2), 0 0 0 rgba(16, 22, 26, 0),
+    0 1px 1px rgba(16, 22, 26, 0.4);
+
+  .legend-header {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+
+    .legend-title {
+      font-size: 24px;
+      margin-top: 0;
+      font-weight: 700;
+      height: 100%;
+    }
+
+    .legend-clear {
+
+      &:hover {
+        font-weight: bold;
+      }
+
+    }
+  
+    
+  }
+
+  .legend-body {
+    
+    .legend-body-description {
+      height: 100%;
+    }
+
+    .legend-row {
+      display: flex;
+    
+      .legend-item {
+        margin-bottom: 4px;
+        width: 50%;
+        display: inline-block;
+
+        .legend-item-figure {
+          width: 153px;
+          height: 21px;
+          color: rgb(19, 19, 19);
+          font-size: 18px;
+          font-weight: 500;
+          padding-bottom: 5px;
+        }
+
+        .legend-item-description {
+          width: 153px;
+          height: 18px;
+          color: rgb(119, 119, 119);
+          font-size: 15px;
+          font-weight: normal;
+          padding-bottom: 8px;
+        }
+      }
+    }
+  }
+
+  .legend-footer {
+
+    .legend-scale {
+      display: flex;
+    
+      .legend-scale-item {
+        height: 15px;
+        width: 20%;
+      }
+    }
+
+    .legend-footer-chart-label {
+      font-size: 18px;
+
+    }
+
+    .legend-footer-chart-container {
+
+      .rv-xy-plot {
+        margin-left: -20px;
+      }
+
+      .legend-footer-hint-container { 
+          height: 42px;
+        }
+
+      &:hover {
+        
+        .legend-footer-chart-hint {
+          display: inline-block;
+          }
+        }
+      
+      .legend-footer-chart-hint {
+        
+        display: none;
+        position: relative;
+        border: 1px solid;
+        border-radius: 5px;
+        padding: 1px;
+        
+
+        .hint-label {
+          font-size: 18px;
+          font-weight: bold;
+          text-align: center;
+        }
+
+        .hint-value {
+          font-size: 16px;
+          text-align: center;
+        }
+      }
+
+    }
+  }
+
+  .legend-scale-label-container {
+    display: flex;
+    justify-content: space-between;
+
+    .legend-scale-label-item {
+      height: 37px;
+      color: rgb(19, 19, 19);
+      font-size: 13px;
+      font-weight: normal;
+    }
+  }
+}
+
+.slider {
+  display: flex;
+}
+
+label {
+  margin-bottom: 10px;
+  display: inline-block;
+  font-weight: 500;
+  margin: 0;
+}
+
+.panel input[type="range"] {
+  flex: 1;
+  position: relative;
+  margin-left: 10px;
+}
