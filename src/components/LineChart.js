@@ -59,6 +59,8 @@ const LineChart = (props) => {
 		'fill': (x.selected? '#008bff':'#373737')
 	}))
 
+	const dataSet = data.filter((v,i,a)=>a.findIndex(t=>(JSON.stringify(t) === JSON.stringify(v)))===i)
+
 	return (
 		<React.Fragment>
 			<div className="legend-footer-chart-label">Compared to state
@@ -74,7 +76,7 @@ const LineChart = (props) => {
 				 	</div>
 				}
 				</div>
-				<Chart data={data} onClick={props.onClick} />
+				<Chart data={dataSet} onClick={props.onClick} />
 			</div>
 		</React.Fragment>
 		)
