@@ -47,13 +47,18 @@ const LineChart = (props) => {
 	    )
 	}
 
-	const data = props.diffs.map((x,i) => ({
+	const sortData = props.diffs.sort(function (a, b) {
+		  return a.selected - b.selected;
+		})
+
+	const data = sortData.map((x,i) => ({
 		'x':x.dff_prc,
 		'y':0,
 		'label':x.label,
 		'stroke': (x.selected? '#008bff':'#484848'),
 		'fill': (x.selected? '#008bff':'#373737')
 	}))
+
 	return (
 		<React.Fragment>
 			<div className="legend-footer-chart-label">Compared to state
