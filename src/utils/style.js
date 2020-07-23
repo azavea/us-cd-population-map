@@ -192,28 +192,14 @@ export default {
     },
     {
       id: "cd-highlight",
-      type: "line",
+      type: "fill",
       source: "composite",
       "source-layer": "azavea_us_congressional_districts_polygons_albersusa",
       layout: {},
       paint: {
-                'line-color': '#000',
-                'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.9, 0],
-                'line-width': 4,
+                'fill-color': '#000',
+                'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.05, 0],
             },
-      // paint: {
-      //   "line-color": '#008BFF',
-      //   "line-width": [
-      //     "interpolate",
-      //     ["linear"],
-      //     ["zoom"],
-      //     4,
-      //     2,
-      //     9,
-      //     5
-      //   ],
-      // },
-      
     },
     {
       id: "cd-selected",
@@ -225,7 +211,7 @@ export default {
                 'line-color': '#008bff',
                 'line-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
                 'line-width': 4,
-            },      
+            },
     },
     {
       id: "place-points-4",
