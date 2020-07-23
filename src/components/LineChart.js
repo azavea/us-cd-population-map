@@ -5,7 +5,7 @@ const LineChart = (props) => {
 
 	const [hintVal,setHintVal] = useState(null)
 
-	function Chart({data,colors}) {
+	function Chart({data,colors,onClick}) {
 	  
 	  const absX = Math.max(...data.map(d => Math.abs(d.x)), 0);
 
@@ -39,6 +39,9 @@ const LineChart = (props) => {
 			onSeriesMouseOut={(event)=>{
 				setHintVal(null)
 			}}
+			onValueClick={(d)=>{
+				onClick(d)
+			}}
 	 	    />
 	    </XYPlot>
 	    )
@@ -66,7 +69,7 @@ const LineChart = (props) => {
 				 	</div>
 				}
 				</div>
-				<Chart data={data} />
+				<Chart data={data} onClick={props.onClick} />
 			</div>
 		</React.Fragment>
 		)

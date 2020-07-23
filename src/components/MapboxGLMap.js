@@ -24,6 +24,7 @@ const MapboxGLMap = () => {
   var hoveredDistrictId;
   var selectedDistrictId;
   const [selectedStateDistrictId, setSelectedStateDistrictId] = useState()
+  const [trigger, setTrigger] = useState()
   const singleDistrictStates = ['AK','WY','MT','ND','SD','VT','DE','DC']
 
   useEffect(() => {
@@ -36,6 +37,12 @@ const MapboxGLMap = () => {
       setChartDiffs(calcChartDiffs(map))
     }
   }, [focusDistrict]);
+
+  useEffect(() => {
+    if (map) {
+      triggerCallback(map)
+    }
+  }, [trigger]);
 
   useEffect(() => {
     mapboxgl.accessToken = 'pk.eyJ1IjoiYXphdmVhIiwiYSI6IkFmMFBYUUUifQ.eYn6znWt8NzYOa3OrWop8A';
@@ -85,6 +92,7 @@ const MapboxGLMap = () => {
   };
 
   const handleClickDistrict = (e,map) => {
+
     if (e.features.length > 0) {
       zoomToState(e.features[0].properties.state_fips, map)
       setOverlayState(e.features[0].properties.state_abbr,map);
@@ -190,6 +198,16 @@ const MapboxGLMap = () => {
     );
   }
 
+  const triggerCallback = (map) => {
+    if (selectedStateDistrictId) {
+      map.setFeatureState(
+        { source: 'composite', sourceLayer: 'azavea_us_congressional_districts_polygons_albersusa', id: selectedStateDistrictId },
+        { selected: false }
+      );
+    }
+
+  } 
+
   const setDistrictSelectedHighlight = (map) => {
     if (selectedDistrictId) {
       map.setFeatureState(
@@ -197,13 +215,37 @@ const MapboxGLMap = () => {
         { selected: false }
       );
     }
-    
+
     map.setFeatureState(
       { source: 'composite', sourceLayer: 'azavea_us_congressional_districts_polygons_albersusa', id: hoveredDistrictId },
       { selected: true }
-    );
-    setSelectedStateDistrictId(hoveredDistrictId)
+    );    
     selectedDistrictId = hoveredDistrictId;
+    setTrigger(new Date().getTime());
+    setSelectedStateDistrictId(hoveredDistrictId)
+  }
+
+  const handleChartClick = (d) => {
+    setFocusDistrict(d.label);
+    var results = map.querySourceFeatures('composite', {
+      sourceLayer: 'azavea_us_congressional_districts_polygons_albersusa',
+      filter: [ '==', 'label', d.label]
+    }).map(x => x.id)
+
+    if (selectedStateDistrictId) {
+      map.setFeatureState(
+        { source: 'composite', sourceLayer: 'azavea_us_congressional_districts_polygons_albersusa', id: selectedStateDistrictId },
+        { selected: false }
+      );
+    }
+
+    map.setFeatureState(
+      { source: 'composite', sourceLayer: 'azavea_us_congressional_districts_polygons_albersusa', id: results[0] },
+      { selected: true }
+    );
+
+    setSelectedStateDistrictId(results[0])
+    return
   }
 
   const onMouseLeave = (map) => {
@@ -317,7 +359,7 @@ const MapboxGLMap = () => {
 
     return (
       <React.Fragment>
-      { !singleDistrictStates.includes(display.state_abbr)  && <LineChart diffs={chartDiffs} /> }
+      { !singleDistrictStates.includes(display.state_abbr)  && <LineChart diffs={chartDiffs} onClick={handleChartClick} /> }
       </React.Fragment>
       )
   }
