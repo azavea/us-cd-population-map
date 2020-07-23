@@ -1,3 +1,23 @@
+
+.App-header {
+  background-color: #282c34;
+  min-height: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+
+  &.embed {
+    display: none;
+  }
+
+  .App-header-title {
+    color: white;
+    padding-left: 20px;
+    text-align: left;  
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -36,11 +56,9 @@ body {
 
       &:hover {
         font-weight: bold;
+        cursor: pointer;
       }
-
     }
-  
-    
   }
 
   .legend-body {
