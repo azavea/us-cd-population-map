@@ -54,7 +54,6 @@ const MapboxGLMap = () => {
         container: mapContainer.current,
         style: style,
         center: [-0.34, -0.62],
-        zoom: 4.7,
         bearing: 0,
         pitch: 0,
         minZoom: 4.8,
@@ -284,6 +283,8 @@ const MapboxGLMap = () => {
         { selected: false }
       );
     }
+    setSelectedStateDistrictId(null)
+    setFocusDistrict(null)
   }
 
   const renderLegendHeader = () => {
