@@ -6,23 +6,23 @@ const LineChart = (props) => {
 	const [hintVal,setHintVal] = useState(null)
 
 	function Chart({data,colors,onClick}) {
-	  
+
 	  const absX = Math.max(...data.map(d => Math.abs(d.x)), 0);
 
-	  const tickVals = absX < 1 
+	  const tickVals = absX < 1
 	  ? [-1,-.5,-.2,0,.2,.5,1].filter(x=>Math.abs(x)<absX)
 	  : [-10,-5,-2,0,2,5,10].filter(x=>Math.abs(x)<absX);
 
 	  return (
 	  	<XYPlot width={361} height={60} xDomain={[-1 * absX, absX]}>
 	      <XAxis
-		    tickValues={tickVals} 
+		    tickValues={tickVals}
 	      	style={{
 			  line: {stroke: '#ADDDE1'},
 			  ticks: {stroke: '#ADDDE1'},
 			  text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
 			}}
-			tickFormat={(value, index, scale, tickTotal)=>{				
+			tickFormat={(value, index, scale, tickTotal)=>{
 				if (value===0) {return value;}
 				return value.toString().concat('%');
 			}}
@@ -56,8 +56,8 @@ const LineChart = (props) => {
 	}))
 	return (
 		<React.Fragment>
-			<div className="legend-footer-chart-label">Compared to state
-			</div>
+			<h2 className="legend-footer-chart-label">Compared to state
+			</h2>
 			<div className="legend-footer-chart-container">
 				<div className="legend-footer-hint-container">
 				{hintVal &&

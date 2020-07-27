@@ -1,66 +1,124 @@
+$header-height: 47px;
+$sidebar-width: 380px;
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
     sans-serif, Apple Color Emoji, Segoe UI Emoji;
-  background-color: #1b2229;
+  background-color: #fff;
+  line-height: 1.35;
+  font-size: 15px;
+}
+
+.logo {
+  height: 21px;
+}
+
+.close-icon {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  top: 4px;
+}
+
+.App-header {
+  background-color: #2C2C2C;
+  height: $header-height;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+}
+
+.map {
+  position: absolute;
+  top: $header-height;
+  bottom: 0;
+  left: 0;
+  right: $sidebar-width;
+}
+
+.app {
+  position: absolute;
+  top: $header-height;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.clear-button {
+  height: 24px;
+  width: 24px;
+  text-align: center;
+  border-radius: 2px;
+  &:hover {
+    background-color: #ddd;
+    cursor: pointer;
+  }
 }
 
 .panel {
   position: absolute;
-  top: 7vh;
+  top: $header-height;
   z-index: 4000;
   background-color: #fff;
-  width: 346px;
+  width: $sidebar-width;
   padding: 15px;
-  border-radius: 3px;
+  border-radius: 0;
   color: #29323c;
-  right: 15px;
+  right: 0;
+  bottom: 0;
   margin: auto;
-  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.2), 0 0 0 rgba(16, 22, 26, 0),
-    0 1px 1px rgba(16, 22, 26, 0.4);
+  box-shadow: 0 0 0 1px rgba(16,22,26,.1), 0 1px 1px rgba(16,22,26,.2), 0 2px 6px rgba(16,22,26,.2);
 
   .legend-header {
     height: 60px;
     display: flex;
     justify-content: space-between;
+    margin: 6px 0 12px;
 
     .legend-title {
-      font-size: 24px;
+      font-size: 21px;
       margin-top: 0;
       font-weight: 700;
+      margin-bottom: 16px;
       height: 100%;
     }
-
-    .legend-clear {
-
-      &:hover {
-        font-weight: bold;
-      }
-
-    }
-  
-    
   }
 
   .legend-body {
-    
+
     .legend-body-description {
       height: 100%;
     }
 
     .legend-row {
       display: flex;
-    
+
       .legend-item {
-        margin-bottom: 4px;
+        margin-bottom: 18px;
         width: 50%;
         display: inline-block;
 
         .legend-item-figure {
           width: 153px;
           height: 21px;
-          color: rgb(19, 19, 19);
+          color: #131313;
           font-size: 18px;
           font-weight: 500;
           padding-bottom: 5px;
@@ -69,9 +127,9 @@ body {
         .legend-item-description {
           width: 153px;
           height: 18px;
-          color: rgb(119, 119, 119);
+          color: #777;
           font-size: 15px;
-          font-weight: normal;
+          font-weight: 400;
           padding-bottom: 8px;
         }
       }
@@ -82,7 +140,7 @@ body {
 
     .legend-scale {
       display: flex;
-    
+
       .legend-scale-item {
         height: 15px;
         width: 20%;
@@ -90,44 +148,54 @@ body {
     }
 
     .legend-footer-chart-label {
-      font-size: 18px;
-
+      font-size: 16px;
+      position: relative;
+      // z-index: -1;
     }
 
     .legend-footer-chart-container {
 
+      position: relative;
+      top: -35px;
+
       .rv-xy-plot {
         margin-left: -20px;
+        font-size: 13px;
+
+        circle {
+          cursor: pointer;
+        }
       }
 
-      .legend-footer-hint-container { 
+      .legend-footer-hint-container {
           height: 42px;
         }
 
       &:hover {
-        
+
         .legend-footer-chart-hint {
           display: inline-block;
           }
         }
-      
+
       .legend-footer-chart-hint {
-        
+        box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 1px 1px rgba(16, 22, 26, 0.2), 0 2px 6px rgba(16, 22, 26, 0.2);
         display: none;
         position: relative;
-        border: 1px solid;
         border-radius: 5px;
-        padding: 1px;
-        
+        padding: 4px;
+        background-color: #fff;
+
 
         .hint-label {
-          font-size: 18px;
-          font-weight: bold;
+          font-size: 13px;
+          font-weight: 600;
           text-align: center;
         }
 
         .hint-value {
-          font-size: 16px;
+          font-size: 13px;
+          font-weight: 400;
           text-align: center;
         }
       }

@@ -77,18 +77,41 @@ export default {
     //   "source-layer": "ne_urban_areas_clipped_us_albersusa",
     //   layout: {},
     //   paint: {
-    //     "fill-pattern": "line-0",
+    //     "fill-pattern": "circle-0",
     //     "fill-opacity": [
-    //       "step",
+    //       "interpolate",
+    //       ["linear"],
     //       ["zoom"],
-    //       0.05,
-    //       6,
-    //       0.05
+    //       7,
+    //       0,
+    //       10,
+    //       0.8
     //     ]
     //   },
     // },
     {
       id: "road-line",
+      type: "line",
+      source: "composite",
+      "source-layer": "ne_roads_clipped_us_albersusa",
+      paint: {
+        "line-color": "#fff",
+        "line-width": 0.5,
+        "line-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          5,
+          0,
+          6,
+          0.3,
+          10,
+          0.5
+        ]
+      }
+    },
+    {
+      id: "road-case",
       type: "line",
       source: "composite",
       "source-layer": "ne_roads_clipped_us_albersusa",
@@ -102,9 +125,9 @@ export default {
           5,
           0,
           6,
-          0.15,
+          0.3,
           10,
-          0.3
+          0.5
         ]
       }
     },
@@ -140,15 +163,17 @@ export default {
       "source-layer": "azavea_us_congressional_districts_innerlines_albersusa",
       layout: {},
       paint: {
-        "line-color": "#fff",
+        "line-color": "#000",
         "line-width": [
-          "step",
+          "interpolate",
+          ["linear"],
           ["zoom"],
-          0.5,
-          6,
+          5,
+          0.25,
+          10,
           1.5
         ],
-        "line-opacity": 1
+        "line-opacity": 0.5
       }
     },
     {
@@ -158,167 +183,17 @@ export default {
       "source-layer": "azavea_us_states_innerlines_albersusa",
       layout: {},
       paint: {
-        "line-color": "#fff",
+        "line-color": "#000",
         "line-width": [
-          "step",
+          "interpolate",
+          ["linear"],
           ["zoom"],
-          1,
-          6,
+          5,
+          0.5,
+          10,
           3
         ],
-        "line-opacity": 1
-      }
-    },
-    {
-      id: "states-masks",
-      type: "fill",
-      source: "composite",
-      "source-layer": "azavea_us_states_polygons_albersusa",
-      layout: {},
-      filter: [
-        "all",
-        [
-          "match",
-          ["get", "abbr"],
-          [""],
-          true,
-          false
-        ]
-      ],
-      paint: {
-        "fill-color": "#fff",
-        "fill-opacity": 0.85
-      }
-    },
-    {
-      id: "cd-highlight",
-      type: "fill",
-      source: "composite",
-      "source-layer": "azavea_us_congressional_districts_polygons_albersusa",
-      layout: {},
-      paint: {
-                'fill-color': '#000',
-                'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.05, 0],
-            },
-    },
-    {
-      id: "cd-selected",
-      type: "line",
-      source: "composite",
-      "source-layer": "azavea_us_congressional_districts_polygons_albersusa",
-      layout: {},
-      paint: {
-                'line-color': '#008bff',
-                'line-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
-                'line-width': 4,
-            },
-    },
-    {
-      id: "place-points-4",
-      type: "symbol",
-      source: "composite",
-      "source-layer": "ne_populated_places_clipped_us_4_albersusa",
-      layout: {
-        "text-field": ["get", "NAME"],
-        "text-font": ["ag-r"],
-        "text-size": [
-          "step",
-          ["zoom"],
-          12,
-          8,
-          14
-        ]
-      },
-      paint: {
-        "text-color": [
-          "step",
-          ["zoom"],
-          "#444",
-          6,
-          "#222"
-        ],
-        "text-opacity": 1,
-        "text-halo-color": "#fff",
-        "text-halo-width": 1.25,
-        "text-halo-blur": 0
-      }
-    },
-    {
-      id: "place-points-3",
-      type: "symbol",
-      source: "composite",
-      "source-layer": "ne_populated_places_clipped_us_3_albersusa",
-      layout: {
-        "text-field": ["get", "NAME"],
-        "text-font": ["ag-r"],
-        "text-size": [
-          "step",
-          ["zoom"],
-          12,
-          8,
-          14
-        ]
-      },
-      paint: {
-        "text-color": [
-          "step",
-          ["zoom"],
-          "#444",
-          6,
-          "#222"
-        ],
-        "text-opacity": 1,
-        "text-halo-color": "#fff",
-        "text-halo-width": 1.25,
-        "text-halo-blur": 0
-      }
-    },
-    {
-      id: "place-points-2",
-      type: "symbol",
-      source: "composite",
-      "source-layer": "ne_populated_places_clipped_us_2_albersusa",
-      layout: {
-        "text-field": ["get", "NAME"],
-        "text-font": ["ag-r"],
-        "text-size": 14
-      },
-      paint: {
-        "text-color": [
-          "step",
-          ["zoom"],
-          "#444",
-          6,
-          "#222"
-        ],
-        "text-opacity": 1,
-        "text-halo-color": "#fff",
-        "text-halo-width": 1.25,
-        "text-halo-blur": 0
-      }
-    },
-    {
-      id: "place-points-1",
-      type: "symbol",
-      source: "composite",
-      "source-layer": "ne_populated_places_clipped_us_1_albersusa",
-      layout: {
-        "text-field": ["get", "NAME"],
-        "text-font": ["ag-r"],
-        "text-size": 14
-      },
-      paint: {
-        "text-color": [
-          "step",
-          ["zoom"],
-          "#444",
-          6,
-          "#222"
-        ],
-        "text-opacity": 1,
-        "text-halo-color": "#fff",
-        "text-halo-width": 1.25,
-        "text-halo-blur": 0
+        "line-opacity": 0.5
       }
     },
     {
@@ -342,7 +217,7 @@ export default {
           ]
         ],
         "text-font": ["ag-m"],
-        "text-letter-spacing": 0.15,
+        "text-letter-spacing": 0,
         "text-transform": [
           "step",
           ["zoom"],
@@ -351,15 +226,218 @@ export default {
           "none"
         ],
         "text-size": [
-          "step",
+          "interpolate",
+          ["linear"],
           ["zoom"],
-          14,
-          9,
-          16,
+          6,
+          10,
+          10,
+          16
         ]
       },
       paint: {
         "text-color": "#999",
+        "text-opacity": 1,
+        "text-halo-color": "#fff",
+        "text-halo-width": 1,
+        "text-halo-blur": 0
+      }
+    },
+    {
+      id: "states-masks",
+      type: "fill",
+      source: "composite",
+      "source-layer": "azavea_us_states_polygons_albersusa",
+      layout: {},
+      filter: [
+        "all",
+        [
+          "match",
+          ["get", "abbr"],
+          [""],
+          true,
+          false
+        ]
+      ],
+      paint: {
+        "fill-color": "#fff",
+        "fill-antialias": true,
+        "fill-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          3,
+          0.8,
+          7,
+          1
+        ]
+      }
+    },
+    {
+      id: "cd-highlight",
+      type: "fill",
+      source: "composite",
+      "source-layer": "azavea_us_congressional_districts_polygons_albersusa",
+      layout: {},
+      paint: {
+                'fill-color': '#000',
+                'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.1, 0],
+            },
+    },
+    {
+      id: "cd-selected",
+      type: "line",
+      source: "composite",
+      "source-layer": "azavea_us_congressional_districts_polygons_albersusa",
+      layout: {},
+      paint: {
+                'line-color': '#008bff',
+                'line-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
+                'line-width': 3,
+            },
+    },
+    {
+      id: "place-points-4",
+      type: "symbol",
+      source: "composite",
+      "source-layer": "ne_populated_places_clipped_us_4_albersusa",
+      layout: {
+        "text-field": ["get", "NAME"],
+        "text-font": ["ag-m"],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4,
+          12,
+          6,
+          12,
+          10,
+          14
+        ],
+        "icon-image": "dot-11",
+        "text-anchor": "bottom",
+        "text-justify": "center"
+      },
+      paint: {
+        "text-color": [
+          "step",
+          ["zoom"],
+          "#444",
+          6,
+          "#222"
+        ],
+        "text-opacity": 1,
+        "text-halo-color": "#fff",
+        "text-halo-width": 1,
+        "text-halo-blur": 0
+      }
+    },
+    {
+      id: "place-points-3",
+      type: "symbol",
+      source: "composite",
+      "source-layer": "ne_populated_places_clipped_us_3_albersusa",
+      layout: {
+        "text-field": ["get", "NAME"],
+        "text-font": ["ag-m"],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4,
+          12,
+          6,
+          12,
+          10,
+          14
+        ],
+        "icon-image": "dot-11",
+        "text-anchor": "bottom",
+        "text-justify": "center"
+      },
+      paint: {
+        "text-color": [
+          "step",
+          ["zoom"],
+          "#444",
+          6,
+          "#222"
+        ],
+        "text-opacity": 1,
+        "text-halo-color": "#fff",
+        "text-halo-width": 1,
+        "text-halo-blur": 0
+      }
+    },
+    {
+      id: "place-points-2",
+      type: "symbol",
+      source: "composite",
+      "source-layer": "ne_populated_places_clipped_us_2_albersusa",
+      layout: {
+        "text-field": ["get", "NAME"],
+        "text-font": ["ag-m"],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4,
+          12,
+          6,
+          12,
+          10,
+          14
+        ],
+        "icon-image": "dot-11",
+        "text-anchor": "bottom",
+        "text-justify": "center"
+      },
+      paint: {
+        "text-color": [
+          "step",
+          ["zoom"],
+          "#444",
+          6,
+          "#222"
+        ],
+        "text-opacity": 1,
+        "text-halo-color": "#fff",
+        "text-halo-width": 1,
+        "text-halo-blur": 0
+      }
+    },
+    {
+      id: "place-points-1",
+      type: "symbol",
+      source: "composite",
+      "source-layer": "ne_populated_places_clipped_us_1_albersusa",
+      layout: {
+        "text-field": ["get", "NAME"],
+        "text-font": ["ag-m"],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4,
+          12,
+          6,
+          12,
+          10,
+          14
+        ],
+        "icon-image": "dot-11",
+        "text-anchor": "bottom",
+        "text-justify": "center"
+      },
+      paint: {
+        "text-color": [
+          "step",
+          ["zoom"],
+          "#444",
+          6,
+          "#222"
+        ],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
@@ -374,8 +452,21 @@ export default {
       "source-layer": "ne_populated_places_clipped_us_0_albersusa",
       layout: {
         "text-field": ["get", "NAME"],
-        "text-font": ["ag-r"],
-        "text-size": 14
+        "text-font": ["ag-m"],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4,
+          12,
+          6,
+          12,
+          10,
+          14
+        ],
+        "icon-image": "dot-11",
+        "text-anchor": "bottom",
+        "text-justify": "center"
       },
       paint: {
         "text-color": [
@@ -387,7 +478,7 @@ export default {
         ],
         "text-opacity": 1,
         "text-halo-color": "#fff",
-        "text-halo-width": 1.25,
+        "text-halo-width": 1,
         "text-halo-blur": 0
       }
     },
@@ -395,6 +486,7 @@ export default {
       id: "state-points",
       type: "symbol",
       source: "composite",
+      minzoom: 3,
       maxzoom: 6,
       "source-layer": "azavea_us_states_points_albersusa",
       layout: {
@@ -411,34 +503,38 @@ export default {
             ["get", "name"]
           ]
         ],
-        "text-font": ["ag-m"],
+        "text-font": ["ag-r"],
         "text-letter-spacing": [
           "step",
           ["zoom"],
-          0.15,
+          0,
           6,
           0
         ],
         "text-transform": [
           "step",
           ["zoom"],
-          "uppercase",
+          "none",
           6,
           "none"
         ],
         "text-size": [
-          "step",
+          "interpolate",
+          ["linear"],
           ["zoom"],
-          10,
+          3,
+          9,
+          4,
+          11,
           6,
-          16
+          14
         ]
       },
       paint: {
-        "text-color": "#777",
+        "text-color": "#555",
         "text-opacity": 1,
         "text-halo-color": "#fff",
-        "text-halo-width": 1.25,
+        "text-halo-width": 1,
         "text-halo-blur": 0
       }
     }

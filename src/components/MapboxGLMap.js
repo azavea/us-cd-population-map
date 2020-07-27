@@ -4,14 +4,11 @@ import mapboxgl from "mapbox-gl";
 import style from '../utils/style';
 import bbox from '../utils/bbox.js';
 import "mapbox-gl/dist/mapbox-gl.css";
+import '../scss/index.scss';
+import '../'
+import closeIcon from '../images/times-regular.svg';
 
 import LineChart from './LineChart';
-
-const styles = {
-  width: "100vw",
-  height: "calc(100vh)",
-  position: "absolute"
-};
 
 const MapboxGLMap = () => {
   const [map, setMap] = useState(null);
@@ -57,7 +54,7 @@ const MapboxGLMap = () => {
         pitch: 0,
         minzoom: 5,
         maxzoom: 11,
-        hash: false
+        hash: true
       });
 
       initZoomToState(map)
@@ -103,7 +100,8 @@ const MapboxGLMap = () => {
   }
 
   const setOverlayState = (stAbbr,map) => {
-    var filter = 
+    console.log(stAbbr);
+    var filter =
       [
         "all",
         [
@@ -139,7 +137,7 @@ const MapboxGLMap = () => {
   }
 
   const setLegend = (map) => {
-    if (!focusDistrict) {return}    
+    if (!focusDistrict) {return}
     var results = map.querySourceFeatures('composite', {
       sourceLayer: 'azavea_us_congressional_districts_polygons_albersusa',
       filter: [ '==', 'label', focusDistrict]
@@ -168,7 +166,7 @@ const MapboxGLMap = () => {
     var results = map.querySourceFeatures('composite', {
       sourceLayer: 'azavea_us_congressional_districts_polygons_albersusa',
       filter: [ '==', 'state_abbr', st]
-    }).map(x => 
+    }).map(x =>
       ({'dff_prc':x.properties.dff_prc * 100,
         'selected': x.properties.label===focusDistrict,
         'label': x.properties.label,
@@ -184,7 +182,7 @@ const MapboxGLMap = () => {
     }).map(x => x.id)
     hoveredDistrictId = results[0]
     setDistrictSelectedHighlight(map)
-    const validPaths = bbox.map(x=>x.abbr)
+    const validPaths = bbox.map(x=>x.abbr);
     const st = (focusDistrict.split('-')[0] || '').toUpperCase()
     if (validPaths.includes(st)) {
       setOverlayState(st,map);
@@ -206,7 +204,7 @@ const MapboxGLMap = () => {
       );
     }
 
-  } 
+  }
 
   const setDistrictSelectedHighlight = (map) => {
     if (selectedDistrictId) {
@@ -219,7 +217,7 @@ const MapboxGLMap = () => {
     map.setFeatureState(
       { source: 'composite', sourceLayer: 'azavea_us_congressional_districts_polygons_albersusa', id: hoveredDistrictId },
       { selected: true }
-    );    
+    );
     selectedDistrictId = hoveredDistrictId;
     setTrigger(new Date().getTime());
     setSelectedStateDistrictId(hoveredDistrictId)
@@ -261,7 +259,7 @@ const MapboxGLMap = () => {
 
   const handleLegendClearClick = (selectedStateDistrictId) => {
     setDisplay(null)
-    var filter = 
+    var filter =
       [
         "all",
         [
@@ -285,14 +283,16 @@ const MapboxGLMap = () => {
     const displayLabel = display
       ? display.state_name.concat(', ',display.label)
       : 'Overpopulated and Underpopulated Districts';
-    
+
     return (
       <div className='legend-header'>
-        <div className="legend-title">
-          {displayLabel}      
-        </div>
+        <h1 className="legend-title">
+          {displayLabel}
+        </h1>
         <div className='legend-clear' onClick={()=>handleLegendClearClick(selectedStateDistrictId)}>
-          X
+          <div className="clear-button">
+            <img src={closeIcon} className="close-icon" alt="Close" />
+          </div>
         </div>
       </div>
       )
@@ -300,7 +300,7 @@ const MapboxGLMap = () => {
 
   const singleDistrictBody = () => {
     const stateName = display.state_name;
-    
+
     return (
         <div className="legend-body-description" >
         <div>{`${stateName} has only one congressional district, which means lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`}</div>
@@ -309,7 +309,7 @@ const MapboxGLMap = () => {
   }
 
   const multiDistrictBody = () => {
-    
+
     return (
       <div>
         <div className="legend-row">
@@ -341,15 +341,15 @@ const MapboxGLMap = () => {
     return (
       <div className="legend-body" style={{height: !display?'200px':'120px'}}>
       { !display
-        ? 
+        ?
         <div className="legend-body-description" >
-        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-        <div>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. And a <a href="https://cicerodata.com" target="_blank">link to the blog</a></div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. And a <a href="https://cicerodata.com" target="_blank">link to the blog</a></p>
         </div>
         :
          singleDistrictStates.includes(display.state_abbr)
          ? singleDistrictBody()
-         : multiDistrictBody()         
+         : multiDistrictBody()
       }
       </div>
      )
@@ -365,11 +365,11 @@ const MapboxGLMap = () => {
   }
 
   const renderLegendFooter = () => {
-    
+
     return (
       <div className="legend-footer" style={{height: !display?'60px':'140px'}}>
       {!display
-        ?      
+        ?
         <React.Fragment>
         <div className="legend-scale">
           <div className="legend-scale-item" style={{backgroundColor: '#8b5109'}}></div>
@@ -384,14 +384,14 @@ const MapboxGLMap = () => {
           <div className="legend-scale-label-item">Overpopulated</div>
         </div>
         </React.Fragment>
-        : renderSelectedFooter() 
+        : renderSelectedFooter()
       }
       </div>
       )
-  } 
+  }
 
   const renderLegend = () => {
-    
+
     return (
       <div className="panel">
         { renderLegendHeader() }
@@ -403,7 +403,7 @@ const MapboxGLMap = () => {
 
   return (
       <React.Fragment>
-        <div ref={el => (mapContainer.current = el)} style={styles} />
+        <div className="map" ref={el => (mapContainer.current = el)} />
         {map && initialLoad && renderLegend()}
       </React.Fragment>
     );
