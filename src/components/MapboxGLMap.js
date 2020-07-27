@@ -329,7 +329,7 @@ const MapboxGLMap = () => {
     setFocusDistrict(null);
   };
 
-  const renderLegendHeader = () => {
+  const PanelHeader = () => {
     const displayLabel = display
       ? display.state_name.concat(", ", display.label)
       : "Overpopulated and Underpopulated Districts";
@@ -351,7 +351,7 @@ const MapboxGLMap = () => {
     );
   };
 
-  const singleDistrictBody = () => {
+  const SingleDistrictBody = () => {
     const stateName = display.state_name;
 
     return (
@@ -361,7 +361,7 @@ const MapboxGLMap = () => {
     );
   };
 
-  const multiDistrictBody = () => {
+  const MultiDistrictBody = () => {
     return (
       <div>
         <div className="legend-row">
@@ -396,7 +396,7 @@ const MapboxGLMap = () => {
     );
   };
 
-  const renderLegendBody = () => {
+  const PanelBody = () => {
     return (
       <div
         className="legend-body"
@@ -419,9 +419,9 @@ const MapboxGLMap = () => {
             </p>
           </div>
         ) : singleDistrictStates.includes(display.state_abbr) ? (
-          singleDistrictBody()
+          <SingleDistrictBody />
         ) : (
-          multiDistrictBody()
+          <MultiDistrictBody />
         )}
       </div>
     );
@@ -437,54 +437,57 @@ const MapboxGLMap = () => {
     );
   };
 
-  const renderLegendFooter = () => {
+  const PanelFooter = () => {
     return (
       <div
         className="legend-footer"
         style={{ height: !display ? "60px" : "140px" }}
       >
-        {!display ? (
-          <React.Fragment>
-            <div className="legend-scale">
-              <div
-                className="legend-scale-item"
-                style={{ backgroundColor: "#8b5109" }}
-              ></div>
-              <div
-                className="legend-scale-item"
-                style={{ backgroundColor: "#f6e8c3" }}
-              ></div>
-              <div
-                className="legend-scale-item"
-                style={{ backgroundColor: "#f0f0f0" }}
-              ></div>
-              <div
-                className="legend-scale-item"
-                style={{ backgroundColor: "#c8eae5" }}
-              ></div>
-              <div
-                className="legend-scale-item"
-                style={{ backgroundColor: "#02665e" }}
-              ></div>
-            </div>
-            <div className="legend-scale-label-container">
-              <div className="legend-scale-label-item">Underpopulated</div>
-              <div className="legend-scale-label-item">Balanced</div>
-              <div className="legend-scale-label-item">Overpopulated</div>
-            </div>
-          </React.Fragment>
-        ) : (
-          renderSelectedFooter()
-        )}
+        {!display ? <div>Nothing here now</div> : renderSelectedFooter()}
       </div>
     );
   };
 
-  const renderLegend = () => {
+  const Legend = () => {
+    return (
+      <React.Fragment>
+        <div className="legend-scale">
+          <div
+            className="legend-scale-item"
+            style={{ backgroundColor: "#8b5109" }}
+          ></div>
+          <div
+            className="legend-scale-item"
+            style={{ backgroundColor: "#f6e8c3" }}
+          ></div>
+          <div
+            className="legend-scale-item"
+            style={{ backgroundColor: "#f0f0f0" }}
+          ></div>
+          <div
+            className="legend-scale-item"
+            style={{ backgroundColor: "#c8eae5" }}
+          ></div>
+          <div
+            className="legend-scale-item"
+            style={{ backgroundColor: "#02665e" }}
+          ></div>
+        </div>
+        <div className="legend-scale-label-container">
+          <div className="legend-scale-label-item">Underpopulated</div>
+          <div className="legend-scale-label-item">Balanced</div>
+          <div className="legend-scale-label-item">Overpopulated</div>
+        </div>
+      </React.Fragment>
+    );
+  };
+
+  const Panel = () => {
     return (
       <div className="panel">
-        {renderLegendHeader()}
-        {renderLegendBody()}
+        <PanelHeader />
+        <PanelBody />
+        <PanelFooter />
       </div>
     );
   };
@@ -492,8 +495,8 @@ const MapboxGLMap = () => {
   return (
     <React.Fragment>
       <div className="map" ref={el => (mapContainer.current = el)} />
-      {map && initialLoad && renderLegend()}
-      {renderLegendFooter()}
+      {map && initialLoad && <Panel />}
+      <Legend />
     </React.Fragment>
   );
 };
