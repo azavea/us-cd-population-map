@@ -12,6 +12,25 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
+.App-header {
+  background-color: #282c34;
+  min-height: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+
+  &.embed {
+    display: none;
+  }
+}
+
+.App-header-title {
+  color: white;
+  padding-left: 20px;
+  text-align: left;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -98,6 +117,14 @@ body {
       font-weight: 700;
       margin-bottom: 16px;
       height: 100%;
+    }
+
+    .legend-clear {
+
+      &:hover {
+        font-weight: bold;
+        cursor: pointer;
+      }
     }
   }
 

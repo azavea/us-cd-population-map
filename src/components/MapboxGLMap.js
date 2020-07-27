@@ -45,34 +45,38 @@ const MapboxGLMap = () => {
     mapboxgl.accessToken = 'pk.eyJ1IjoiYXphdmVhIiwiYSI6IkFmMFBYUUUifQ.eYn6znWt8NzYOa3OrWop8A';
     const initializeMap = ({ setMap, mapContainer }) => {
 
+      var [xmin,ymin,xmax,ymax] = [-24.026114086648512, -13.080309755245814, 20.700190980283185, 12.703790184833048];
+
       const map = new mapboxgl.Map({
         container: mapContainer.current,
         style: style,
         center: [-0.34, -0.62],
-        zoom: 4.7,
         bearing: 0,
         pitch: 0,
-        minzoom: 5,
-        maxzoom: 11,
-        hash: true
+        minZoom: 4.8,
+        maxZoom: 11,
+        hash: false,
       });
 
+      var nav = new mapboxgl.NavigationControl();
+      map.addControl(nav, 'top-left');
+      map.fitBounds([[xmax, ymax], [xmin, ymin]], { padding: 25 });
       initZoomToState(map)
-
       map.dragRotate.disable();
+      map.doubleClickZoom.disable();
       map.touchZoomRotate.disableRotation();
       map.on("load", () => {
         setMap(map);
         loadMap(map);
-        map.resize();
       });
+      window.history.replaceState({}, "", "/" );
     };
 
     if (!map) initializeMap({ setMap, mapContainer });
   }, [map]);
 
   const loadMap = function(map, layerName, styleMode) {
-    window.history.replaceState({}, "", "/" );
+
     map.on('mousemove', 'cd-polygons', (e)=> {onMouseMove(e,map);});
     map.on('mouseleave', 'cd-polygons', ()=> {onMouseLeave(map);});
     map.on('click', 'cd-polygons', (e)=> {handleClickDistrict(e,map);});
@@ -277,6 +281,8 @@ const MapboxGLMap = () => {
         { selected: false }
       );
     }
+    setSelectedStateDistrictId(null)
+    setFocusDistrict(null)
   }
 
   const renderLegendHeader = () => {
@@ -289,11 +295,13 @@ const MapboxGLMap = () => {
         <h1 className="legend-title">
           {displayLabel}
         </h1>
+        {display &&
         <div className='legend-clear' onClick={()=>handleLegendClearClick(selectedStateDistrictId)}>
           <div className="clear-button">
             <img src={closeIcon} className="close-icon" alt="Close" />
           </div>
         </div>
+        }
       </div>
       )
   }

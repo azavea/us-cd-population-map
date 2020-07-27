@@ -47,13 +47,20 @@ const LineChart = (props) => {
 	    )
 	}
 
-	const data = props.diffs.map((x,i) => ({
+	const sortData = props.diffs.sort(function (a, b) {
+		  return a.selected - b.selected;
+		})
+
+	const data = sortData.map((x,i) => ({
 		'x':x.dff_prc,
 		'y':0,
 		'label':x.label,
 		'stroke': (x.selected? '#008bff':'#484848'),
 		'fill': (x.selected? '#008bff':'#373737')
 	}))
+
+	const dataSet = data.filter((v,i,a)=>a.findIndex(t=>(JSON.stringify(t) === JSON.stringify(v)))===i)
+
 	return (
 		<React.Fragment>
 			<h2 className="legend-footer-chart-label">Compared to state
@@ -69,7 +76,7 @@ const LineChart = (props) => {
 				 	</div>
 				}
 				</div>
-				<Chart data={data} onClick={props.onClick} />
+				<Chart data={dataSet} onClick={props.onClick} />
 			</div>
 		</React.Fragment>
 		)
