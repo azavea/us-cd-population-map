@@ -31,23 +31,25 @@ export default {
       source: "composite",
       "source-layer": "azavea_us_congressional_districts_polygons_albersusa",
       layout: {},
-      paint: { "fill-color": [
-        "step",
-        ["get", "dff_prc"],
-        "#8c510a",
-        -0.05475,
-        "#d8b365",
-        -0.0295,
-        "#f6e8c3",
-        -0.01018,
-        "#F0F0F0",
-        0.00843,
-        "#c7eae5",
-        0.02871,
-        "#5ab4ac",
-        0.0604,
-        "#01665e"
-      ] }
+      paint: {
+        "fill-color": [
+          "step",
+          ["get", "dff_prc"],
+          "#8c510a",
+          -0.05475,
+          "#d8b365",
+          -0.0295,
+          "#f6e8c3",
+          -0.01018,
+          "#F0F0F0",
+          0.00843,
+          "#c7eae5",
+          0.02871,
+          "#5ab4ac",
+          0.0604,
+          "#01665e"
+        ]
+      }
     },
     {
       id: "urban-areas",
@@ -68,7 +70,7 @@ export default {
           10,
           0.05
         ]
-      },
+      }
     },
     // {
     //   id: "urban-areas-pattern",
@@ -143,14 +145,7 @@ export default {
         [
           "match",
           ["get", "fips"],
-          [
-            "30",
-            "50",
-            "56",
-            "38",
-            "46",
-            "02"
-          ],
+          ["30", "50", "56", "38", "46", "02"],
           true,
           false
         ]
@@ -164,15 +159,7 @@ export default {
       layout: {},
       paint: {
         "line-color": "#000",
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          5,
-          0.25,
-          10,
-          1.5
-        ],
+        "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0.25, 10, 1.5],
         "line-opacity": 0.5
       }
     },
@@ -184,15 +171,7 @@ export default {
       layout: {},
       paint: {
         "line-color": "#000",
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          5,
-          0.5,
-          10,
-          3
-        ],
+        "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0.5, 10, 3],
         "line-opacity": 0.5
       }
     },
@@ -206,34 +185,14 @@ export default {
         "text-field": [
           "step",
           ["zoom"],
-          [
-            "to-string",
-            ["get", "label"]
-          ],
+          ["to-string", ["get", "label"]],
           6,
-          [
-            "to-string",
-            ["get", "label"]
-          ]
+          ["to-string", ["get", "label"]]
         ],
         "text-font": ["ag-m"],
         "text-letter-spacing": 0,
-        "text-transform": [
-          "step",
-          ["zoom"],
-          "uppercase",
-          6,
-          "none"
-        ],
-        "text-size": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          6,
-          10,
-          10,
-          16
-        ]
+        "text-transform": ["step", ["zoom"], "uppercase", 6, "none"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 6, 10, 10, 16]
       },
       paint: {
         "text-color": "#999",
@@ -249,28 +208,11 @@ export default {
       source: "composite",
       "source-layer": "azavea_us_states_polygons_albersusa",
       layout: {},
-      filter: [
-        "all",
-        [
-          "match",
-          ["get", "abbr"],
-          [""],
-          true,
-          false
-        ]
-      ],
+      filter: ["all", ["match", ["get", "abbr"], [""], true, false]],
       paint: {
         "fill-color": "#fff",
         "fill-antialias": true,
-        "fill-opacity": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          3,
-          0.8,
-          7,
-          1
-        ]
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.8, 7, 1]
       }
     },
     {
@@ -280,9 +222,14 @@ export default {
       "source-layer": "azavea_us_congressional_districts_polygons_albersusa",
       layout: {},
       paint: {
-                'fill-color': '#000',
-                'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.1, 0],
-            },
+        "fill-color": "#000",
+        "fill-opacity": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          0.1,
+          0
+        ]
+      }
     },
     {
       id: "cd-selected",
@@ -291,10 +238,15 @@ export default {
       "source-layer": "azavea_us_congressional_districts_polygons_albersusa",
       layout: {},
       paint: {
-                'line-color': '#008bff',
-                'line-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
-                'line-width': 3,
-            },
+        "line-color": "#008bff",
+        "line-opacity": [
+          "case",
+          ["boolean", ["feature-state", "selected"], false],
+          0.9,
+          0
+        ],
+        "line-width": 3
+      }
     },
     {
       id: "place-points-4",
@@ -320,13 +272,7 @@ export default {
         "text-justify": "center"
       },
       paint: {
-        "text-color": [
-          "step",
-          ["zoom"],
-          "#444",
-          6,
-          "#222"
-        ],
+        "text-color": ["step", ["zoom"], "#444", 6, "#222"],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
@@ -357,13 +303,7 @@ export default {
         "text-justify": "center"
       },
       paint: {
-        "text-color": [
-          "step",
-          ["zoom"],
-          "#444",
-          6,
-          "#222"
-        ],
+        "text-color": ["step", ["zoom"], "#444", 6, "#222"],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
@@ -394,13 +334,7 @@ export default {
         "text-justify": "center"
       },
       paint: {
-        "text-color": [
-          "step",
-          ["zoom"],
-          "#444",
-          6,
-          "#222"
-        ],
+        "text-color": ["step", ["zoom"], "#444", 6, "#222"],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
@@ -431,13 +365,7 @@ export default {
         "text-justify": "center"
       },
       paint: {
-        "text-color": [
-          "step",
-          ["zoom"],
-          "#444",
-          6,
-          "#222"
-        ],
+        "text-color": ["step", ["zoom"], "#444", 6, "#222"],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
@@ -469,13 +397,7 @@ export default {
         "text-justify": "center"
       },
       paint: {
-        "text-color": [
-          "step",
-          ["zoom"],
-          "#444",
-          6,
-          "#222"
-        ],
+        "text-color": ["step", ["zoom"], "#444", 6, "#222"],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
@@ -493,42 +415,14 @@ export default {
         "text-field": [
           "step",
           ["zoom"],
-          [
-            "to-string",
-            ["get", "short"]
-          ],
+          ["to-string", ["get", "short"]],
           6,
-          [
-            "to-string",
-            ["get", "name"]
-          ]
+          ["to-string", ["get", "name"]]
         ],
         "text-font": ["ag-r"],
-        "text-letter-spacing": [
-          "step",
-          ["zoom"],
-          0,
-          6,
-          0
-        ],
-        "text-transform": [
-          "step",
-          ["zoom"],
-          "none",
-          6,
-          "none"
-        ],
-        "text-size": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          3,
-          9,
-          4,
-          11,
-          6,
-          14
-        ]
+        "text-letter-spacing": ["step", ["zoom"], 0, 6, 0],
+        "text-transform": ["step", ["zoom"], "none", 6, "none"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 3, 9, 4, 11, 6, 14]
       },
       paint: {
         "text-color": "#555",
