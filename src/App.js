@@ -9,8 +9,8 @@ function App() {
   const embed = embedParam === "true" ? true : false;
 
   return (
-    <div className="App">
-      <div className={"App-header" + (embed ? " embed" : "")}>
+    <div className={"App" + (embed ? " embed" : "")}>
+      <div className="App-header">
         <a className="logo-link" href="http://districtbuilder.org">
           <img src={logo} className="logo" alt="DistrictBuilder" />
         </a>
