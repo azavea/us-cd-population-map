@@ -1,6 +1,6 @@
 # us-cd-population-map
 
-Source code from a blog post about US Congressional District populations heading in advance of the 2020 Census.
+Source code from a blog post about US Congressional District populations in advance of the 2020 Census.
 
 ## Quick Setup
 
