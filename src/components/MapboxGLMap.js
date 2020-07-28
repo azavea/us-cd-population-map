@@ -375,7 +375,7 @@ const MapboxGLMap = () => {
 
     return (
       <div className="panel-body-description">
-        <div>{`${stateName} has only one congressional district, which means lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`}</div>
+        <p>{`${stateName} has one, at-large representative, due to how representatives are reapportioned based on population. This state's population is not large enough to receive more than one representative.`}</p>
       </div>
     );
   };
