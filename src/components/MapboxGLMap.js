@@ -54,6 +54,10 @@ const MapboxGLMap = () => {
         12.703790184833048
       ];
 
+      var url = new URL(window.location.href);
+      var embedParam = url.searchParams.get("embed");
+      const embed = embedParam === "true" ? true : false;
+
       const map = new mapboxgl.Map({
         container: mapContainer.current,
         style: style,
@@ -74,12 +78,14 @@ const MapboxGLMap = () => {
       map.addControl(nav, "top-left");
 
       map.fitBounds([[xmax, ymax], [xmin, ymin]], {
-        padding: {
-          left: 10,
-          right: 340,
-          top: 0,
-          bottom: 0
-        }
+        padding: embed
+          ? 5
+          : {
+              left: 10,
+              right: 340,
+              top: 0,
+              bottom: 0
+            }
       });
       initZoomToState(map);
       map.dragRotate.disable();
@@ -461,7 +467,7 @@ const MapboxGLMap = () => {
 
   const Legend = () => {
     return (
-      <div class="legend">
+      <div className="legend">
         <div className="legend-scale">
           <div
             className="legend-scale-item"
@@ -495,7 +501,7 @@ const MapboxGLMap = () => {
 
   const Panel = () => {
     return (
-      <div className="panel">
+      <div className={`panel ${display ? "view--detail" : "view--default"}`}>
         <PanelHeader />
         <PanelBody />
         <PanelFooter />
