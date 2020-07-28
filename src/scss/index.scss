@@ -1,21 +1,8 @@
+$header-height: 47px;
+$sidebar-width: 340px;
 
-.App-header {
-  background-color: #282c34;
-  min-height: 5vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-
-  &.embed {
-    display: none;
-  }
-
-  .App-header-title {
-    color: white;
-    padding-left: 20px;
-    text-align: left;  
-  }
+html {
+  box-sizing: border-box;
 }
 
 body {
@@ -23,37 +10,245 @@ body {
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
     sans-serif, Apple Color Emoji, Segoe UI Emoji;
-  background-color: #1b2229;
+  background-color: #fff;
+  line-height: 1.35;
+  font-size: 14px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+}
+
+a {
+  color: #6d98ba;
+}
+
+.App {
+  height: 100%;
+}
+
+.App-header {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &.embed {
+    display: none;
+  }
+}
+
+.App-header-title {
+  color: white;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.legend {
+  position: absolute;
+  z-index: 20000;
+  bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 10px;
+  width: 300px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 1px 1px rgba(16, 22, 26, 0.2),
+    0 2px 6px rgba(16, 22, 26, 0.2);
+}
+
+.legend-scale {
+  display: flex;
+
+  .legend-scale-item {
+    height: 15px;
+    width: 20%;
+  }
+}
+
+.legend-scale-label-container {
+  display: flex;
+  justify-content: space-between;
+
+  .legend-scale-label-item {
+    color: #131313;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 6px;
+  }
+}
+
+.legend-footer-chart-label {
+  font-size: 14px;
+  position: relative;
+  margin-bottom: -15px;
+  font-weight: 600;
+}
+
+.legend-footer-chart-container {
+  position: relative;
+
+  .rv-xy-plot {
+    font-size: 12px;
+
+    circle {
+      cursor: pointer;
+    }
+  }
+
+  .legend-footer-hint-container {
+    height: 42px;
+  }
+
+  &:hover {
+    .legend-footer-chart-hint {
+      display: inline-block;
+    }
+  }
+
+  .legend-footer-chart-hint {
+    box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 1px 1px rgba(16, 22, 26, 0.2),
+      0 2px 6px rgba(16, 22, 26, 0.2);
+    display: none;
+    position: relative;
+    border-radius: 5px;
+    padding: 4px;
+    background-color: #fff;
+
+    .hint-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .hint-value {
+      font-size: 12px;
+      font-weight: 400;
+      text-align: center;
+    }
+  }
+}
+
+.logo-link {
+  height: 21px;
+
+  img {
+    height: 21px;
+  }
+}
+
+.close-icon {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  top: 4px;
+}
+
+.App-header {
+  background-color: #2c2c2c;
+  height: $header-height;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+}
+
+.map {
+  position: absolute;
+  top: $header-height;
+  bottom: 0;
+  left: 0;
+  // right: $sidebar-width;
+  right: 0;
+}
+
+.app {
+  position: absolute;
+  top: $header-height;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.clear-button {
+  height: 24px;
+  width: 24px;
+  text-align: center;
+  position: relative;
+  top: -2px;
+  border-radius: 2px;
+  &:hover {
+    background-color: #ddd;
+    cursor: pointer;
+  }
 }
 
 .panel {
   position: absolute;
-  top: 7vh;
+  overflow: hidden;
+  top: calc(47px + 10px);
   z-index: 4000;
   background-color: #fff;
-  width: 346px;
-  padding: 15px;
-  border-radius: 3px;
+  width: 320px;
+  padding: 10px;
+  border-radius: 0;
   color: #29323c;
-  right: 15px;
+  right: 10px;
   margin: auto;
-  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.2), 0 0 0 rgba(16, 22, 26, 0),
-    0 1px 1px rgba(16, 22, 26, 0.4);
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 1px 1px rgba(16, 22, 26, 0.2),
+    0 2px 6px rgba(16, 22, 26, 0.2);
 
-  .legend-header {
-    height: 60px;
+  hr {
+    margin: 0px -10px 20px;
+    border: none;
+    height: 1px;
+    background: #e2e2e2;
+  }
+
+  .panel-header {
     display: flex;
     justify-content: space-between;
+    margin: 6px 0 10px;
 
-    .legend-title {
-      font-size: 24px;
+    .panel-title {
+      font-size: 18px;
       margin-top: 0;
       font-weight: 700;
+      margin-bottom: 0;
       height: 100%;
     }
 
-    .legend-clear {
+    .panel-detail {
+      font-size: 15px;
+      margin-top: 0;
+      font-weight: 700;
+      margin-bottom: 0;
+      height: 100%;
+    }
 
+    .panel-clear {
       &:hover {
         font-weight: bold;
         cursor: pointer;
@@ -61,108 +256,39 @@ body {
     }
   }
 
-  .legend-body {
-    
-    .legend-body-description {
+  .panel-body {
+    .panel-body-description {
       height: 100%;
     }
 
-    .legend-row {
+    .panel-row {
       display: flex;
-    
-      .legend-item {
-        margin-bottom: 4px;
+
+      .panel-item {
+        margin-bottom: 18px;
         width: 50%;
         display: inline-block;
 
-        .legend-item-figure {
-          width: 153px;
-          height: 21px;
-          color: rgb(19, 19, 19);
+        .panel-item-figure {
+          color: #131313;
           font-size: 18px;
           font-weight: 500;
-          padding-bottom: 5px;
+          padding-bottom: 0px;
         }
 
-        .legend-item-description {
+        .panel-item-description {
           width: 153px;
           height: 18px;
-          color: rgb(119, 119, 119);
-          font-size: 15px;
-          font-weight: normal;
+          color: #777;
+          font-size: 14px;
+          font-weight: 400;
           padding-bottom: 8px;
         }
       }
     }
   }
 
-  .legend-footer {
-
-    .legend-scale {
-      display: flex;
-    
-      .legend-scale-item {
-        height: 15px;
-        width: 20%;
-      }
-    }
-
-    .legend-footer-chart-label {
-      font-size: 18px;
-
-    }
-
-    .legend-footer-chart-container {
-
-      .rv-xy-plot {
-        margin-left: -20px;
-      }
-
-      .legend-footer-hint-container { 
-          height: 42px;
-        }
-
-      &:hover {
-        
-        .legend-footer-chart-hint {
-          display: inline-block;
-          }
-        }
-      
-      .legend-footer-chart-hint {
-        
-        display: none;
-        position: relative;
-        border: 1px solid;
-        border-radius: 5px;
-        padding: 1px;
-        
-
-        .hint-label {
-          font-size: 18px;
-          font-weight: bold;
-          text-align: center;
-        }
-
-        .hint-value {
-          font-size: 16px;
-          text-align: center;
-        }
-      }
-
-    }
-  }
-
-  .legend-scale-label-container {
-    display: flex;
-    justify-content: space-between;
-
-    .legend-scale-label-item {
-      height: 37px;
-      color: rgb(19, 19, 19);
-      font-size: 13px;
-      font-weight: normal;
-    }
+  .panel-footer {
   }
 }
 
