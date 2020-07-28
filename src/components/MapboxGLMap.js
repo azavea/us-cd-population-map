@@ -48,9 +48,9 @@ const MapboxGLMap = () => {
       "pk.eyJ1IjoiYXphdmVhIiwiYSI6IkFmMFBYUUUifQ.eYn6znWt8NzYOa3OrWop8A";
     const initializeMap = ({ setMap, mapContainer }) => {
       var [xmin, ymin, xmax, ymax] = [
-        -24.026114086648512,
+        -20.026114086648512,
         -13.080309755245814,
-        20.700190980283185,
+        19.700190980283185,
         12.703790184833048
       ];
 
@@ -60,14 +60,27 @@ const MapboxGLMap = () => {
         center: [-0.34, -0.62],
         bearing: 0,
         pitch: 0,
-        minZoom: 4,
+        minZoom: 2,
         maxZoom: 11,
-        hash: false
+        hash: false,
+        maxBounds: [[xmin - 40, ymin - 40], [xmax + 40, ymax + 40]]
       });
 
-      var nav = new mapboxgl.NavigationControl();
+      var nav = new mapboxgl.NavigationControl({
+        showCompass: false,
+        showZoom: true
+      });
+
       map.addControl(nav, "top-left");
-      map.fitBounds([[xmax, ymax], [xmin, ymin]], { padding: 25 });
+
+      map.fitBounds([[xmax, ymax], [xmin, ymin]], {
+        padding: {
+          left: 10,
+          right: 340,
+          top: 0,
+          bottom: 0
+        }
+      });
       initZoomToState(map);
       map.dragRotate.disable();
       map.doubleClickZoom.disable();
@@ -139,7 +152,7 @@ const MapboxGLMap = () => {
     const box = bbox.find(x => x.fips === stFips).bbox;
     var [xmin, ymin, xmax, ymax] = [...box];
     map.fitBounds([[xmax, ymax], [xmin, ymin]], {
-      padding: { left: 15, bottom: 15, right: 340, top: 15 }
+      padding: { left: 15, bottom: 15, right: 300, top: 15 }
     });
   };
 
@@ -335,19 +348,25 @@ const MapboxGLMap = () => {
       : "Overpopulated and Underpopulated Districts";
 
     return (
-      <div className="legend-header">
-        <h1 className="legend-title">{displayLabel}</h1>
-        {display && (
-          <div
-            className="legend-clear"
-            onClick={() => handleLegendClearClick(selectedStateDistrictId)}
-          >
-            <div className="clear-button">
-              <img src={closeIcon} className="close-icon" alt="Close" />
-            </div>
-          </div>
-        )}
-      </div>
+      <React.Fragment>
+        <div className="panel-header">
+          {!display && <h1 className="panel-title">{displayLabel}</h1>}
+          {display && (
+            <React.Fragment>
+              <h2 className="panel-detail">{displayLabel}</h2>
+              <div
+                className="panel-clear"
+                onClick={() => handleLegendClearClick(selectedStateDistrictId)}
+              >
+                <div className="clear-button">
+                  <img src={closeIcon} className="close-icon" alt="Close" />
+                </div>
+              </div>
+            </React.Fragment>
+          )}
+        </div>
+        {display && <hr />}
+      </React.Fragment>
     );
   };
 
@@ -355,7 +374,7 @@ const MapboxGLMap = () => {
     const stateName = display.state_name;
 
     return (
-      <div className="legend-body-description">
+      <div className="panel-body-description">
         <div>{`${stateName} has only one congressional district, which means lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`}</div>
       </div>
     );
@@ -364,32 +383,32 @@ const MapboxGLMap = () => {
   const MultiDistrictBody = () => {
     return (
       <div>
-        <div className="legend-row">
-          <div className="legend-item">
-            <div className="legend-item-figure">
+        <div className="panel-row">
+          <div className="panel-item">
+            <div className="panel-item-figure">
               {display.estimat.toLocaleString()}
             </div>
-            <div className="legend-item-description">2018 Population</div>
+            <div className="panel-item-description">2018 Population</div>
           </div>
-          <div className="legend-item">
-            <div className="legend-item-figure">
+          <div className="panel-item">
+            <div className="panel-item-figure">
               {display.trgtp18.toLocaleString()}
             </div>
-            <div className="legend-item-description">Target Population</div>
+            <div className="panel-item-description">Target Population</div>
           </div>
         </div>
-        <div className="legend-row">
-          <div className="legend-item">
-            <div className="legend-item-figure">
+        <div className="panel-row">
+          <div className="panel-item">
+            <div className="panel-item-figure">
               {display.diff.toLocaleString()}
             </div>
-            <div className="legend-item-description">Difference</div>
+            <div className="panel-item-description">Difference</div>
           </div>
-          <div className="legend-item">
-            <div className="legend-item-figure">
+          <div className="panel-item">
+            <div className="panel-item-figure">
               {(display.dff_prc * 100).toFixed(1).concat("%")}
             </div>
-            <div className="legend-item-description">Difference, Percent</div>
+            <div className="panel-item-description">Difference, Percent</div>
           </div>
         </div>
       </div>
@@ -398,24 +417,19 @@ const MapboxGLMap = () => {
 
   const PanelBody = () => {
     return (
-      <div
-        className="legend-body"
-        style={{ height: !display ? "200px" : "120px" }}
-      >
+      <div className="panel-body">
         {!display ? (
-          <div className="legend-body-description">
+          <div className="panel-body-description">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              This map displays the latest population estimates for
+              Congressional districts in the U.S. and compares it to the state's
+              target population for districts. The target population is what the
+              districts would be, ideally, if they were redrawn based on the
+              latest estimates.
             </p>
             <p>
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat. And a{" "}
-              <a href="https://cicerodata.com" target="_blank">
-                link to the blog
-              </a>
+              Use this map to see which districts are over-or-under populated.
+              For more information, read the corresponding <a href="#">blog</a>.
             </p>
           </div>
         ) : singleDistrictStates.includes(display.state_abbr) ? (
@@ -439,18 +453,15 @@ const MapboxGLMap = () => {
 
   const PanelFooter = () => {
     return (
-      <div
-        className="legend-footer"
-        style={{ height: !display ? "60px" : "140px" }}
-      >
-        {!display ? <div>Nothing here now</div> : renderSelectedFooter()}
+      <div className="panel-footer">
+        {!display ? <React.Fragment /> : renderSelectedFooter()}
       </div>
     );
   };
 
   const Legend = () => {
     return (
-      <React.Fragment>
+      <div class="legend">
         <div className="legend-scale">
           <div
             className="legend-scale-item"
@@ -478,7 +489,7 @@ const MapboxGLMap = () => {
           <div className="legend-scale-label-item">Balanced</div>
           <div className="legend-scale-label-item">Overpopulated</div>
         </div>
-      </React.Fragment>
+      </div>
     );
   };
 

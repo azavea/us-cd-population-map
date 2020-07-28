@@ -1,9 +1,25 @@
 $header-height: 47px;
-$sidebar-width: 380px;
+$sidebar-width: 340px;
 
 html {
   box-sizing: border-box;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  background-color: #fff;
+  line-height: 1.35;
+  font-size: 14px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
 *,
 *:before,
 *:after {
@@ -19,13 +35,19 @@ h6 {
   line-height: 1.2;
 }
 
+a {
+  color: #6d98ba;
+}
+
+.App {
+  height: 100%;
+}
+
 .App-header {
   background-color: #282c34;
-  min-height: 5vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
 
   &.embed {
     display: none;
@@ -38,6 +60,22 @@ h6 {
   text-align: left;
 }
 
+.legend {
+  position: absolute;
+  z-index: 20000;
+  bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 10px;
+  width: 300px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 1px 1px rgba(16, 22, 26, 0.2),
+    0 2px 6px rgba(16, 22, 26, 0.2);
+}
+
 .legend-scale {
   display: flex;
 
@@ -47,19 +85,30 @@ h6 {
   }
 }
 
+.legend-scale-label-container {
+  display: flex;
+  justify-content: space-between;
+
+  .legend-scale-label-item {
+    color: #131313;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 6px;
+  }
+}
+
 .legend-footer-chart-label {
-  font-size: 16px;
+  font-size: 14px;
   position: relative;
-  // z-index: -1;
+  margin-bottom: -15px;
+  font-weight: 600;
 }
 
 .legend-footer-chart-container {
   position: relative;
-  top: -35px;
 
   .rv-xy-plot {
-    margin-left: -20px;
-    font-size: 13px;
+    font-size: 12px;
 
     circle {
       cursor: pointer;
@@ -86,31 +135,25 @@ h6 {
     background-color: #fff;
 
     .hint-label {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       text-align: center;
     }
 
     .hint-value {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 400;
       text-align: center;
     }
   }
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
-    sans-serif, Apple Color Emoji, Segoe UI Emoji;
-  background-color: #fff;
-  line-height: 1.35;
-  font-size: 15px;
-}
-
-.logo {
+.logo-link {
   height: 21px;
+
+  img {
+    height: 21px;
+  }
 }
 
 .close-icon {
@@ -153,6 +196,8 @@ body {
   height: 24px;
   width: 24px;
   text-align: center;
+  position: relative;
+  top: -2px;
   border-radius: 2px;
   &:hover {
     background-color: #ddd;
@@ -162,35 +207,48 @@ body {
 
 .panel {
   position: absolute;
-  top: calc(47px + 15px);
-  margin-top: 15px;
-  height: 340px;
+  overflow: hidden;
+  top: calc(47px + 10px);
   z-index: 4000;
   background-color: #fff;
-  width: 340px;
-  padding: 15px;
+  width: 320px;
+  padding: 10px;
   border-radius: 0;
   color: #29323c;
-  right: 15px;
+  right: 10px;
   margin: auto;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 1px 1px rgba(16, 22, 26, 0.2),
     0 2px 6px rgba(16, 22, 26, 0.2);
 
-  .legend-header {
-    height: 60px;
+  hr {
+    margin: 0px -10px 20px;
+    border: none;
+    height: 1px;
+    background: #e2e2e2;
+  }
+
+  .panel-header {
     display: flex;
     justify-content: space-between;
-    margin: 6px 0 12px;
+    margin: 6px 0 10px;
 
-    .legend-title {
-      font-size: 21px;
+    .panel-title {
+      font-size: 18px;
       margin-top: 0;
       font-weight: 700;
-      margin-bottom: 16px;
+      margin-bottom: 0;
       height: 100%;
     }
 
-    .legend-clear {
+    .panel-detail {
+      font-size: 15px;
+      margin-top: 0;
+      font-weight: 700;
+      margin-bottom: 0;
+      height: 100%;
+    }
+
+    .panel-clear {
       &:hover {
         font-weight: bold;
         cursor: pointer;
@@ -198,33 +256,31 @@ body {
     }
   }
 
-  .legend-body {
-    .legend-body-description {
+  .panel-body {
+    .panel-body-description {
       height: 100%;
     }
 
-    .legend-row {
+    .panel-row {
       display: flex;
 
-      .legend-item {
+      .panel-item {
         margin-bottom: 18px;
         width: 50%;
         display: inline-block;
 
-        .legend-item-figure {
-          width: 153px;
-          height: 21px;
+        .panel-item-figure {
           color: #131313;
           font-size: 18px;
           font-weight: 500;
-          padding-bottom: 5px;
+          padding-bottom: 0px;
         }
 
-        .legend-item-description {
+        .panel-item-description {
           width: 153px;
           height: 18px;
           color: #777;
-          font-size: 15px;
+          font-size: 14px;
           font-weight: 400;
           padding-bottom: 8px;
         }
@@ -232,19 +288,7 @@ body {
     }
   }
 
-  .legend-footer {
-  }
-
-  .legend-scale-label-container {
-    display: flex;
-    justify-content: space-between;
-
-    .legend-scale-label-item {
-      height: 37px;
-      color: rgb(19, 19, 19);
-      font-size: 13px;
-      font-weight: normal;
-    }
+  .panel-footer {
   }
 }
 

@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <div className={"App-header" + (embed ? " embed" : "")}>
-        <a href="http://districtbuilder.org">
+        <a className="logo-link" href="http://districtbuilder.org">
           <img src={logo} className="logo" alt="DistrictBuilder" />
         </a>
       </div>

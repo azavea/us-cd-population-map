@@ -212,7 +212,7 @@ export default {
       paint: {
         "fill-color": "#fff",
         "fill-antialias": true,
-        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.8, 7, 1]
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.8, 7, 0.95]
       }
     },
     {
