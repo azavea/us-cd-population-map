@@ -26,6 +26,12 @@ const MapboxGLMap = () => {
   const [trigger, setTrigger] = useState();
   const singleDistrictStates = ["AK", "WY", "MT", "ND", "SD", "VT", "DE", "DC"];
 
+  var url = new URL(window.location.href);
+  var embedParam = url.searchParams.get("embed");
+  const embed = embedParam === "true" ? true : false;
+
+  console.log("hey", embed);
+
   useEffect(() => {
     setFocusDistrict(router_id);
   }, [router_id]);
