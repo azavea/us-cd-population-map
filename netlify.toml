@@ -5,6 +5,7 @@
   base = "."
   publish = "build/"
   command = "npm run build"
+  environment = { CI = "1" }
 
 # Redirect all routes to index.html, so that React Router
 # can handle routing.
