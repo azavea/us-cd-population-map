@@ -453,8 +453,7 @@ const MapboxGLMap = () => {
             </p>
             <p>
               Use this map to see which districts are over-or-under populated.
-              For more information, read the corresponding
-              <a href="https://www.azavea.com/blog/">blog</a>.
+              For more information, read the corresponding&nbsp;<a href="https://www.azavea.com/blog/">blog</a>.
             </p>
           </div>
         ) : singleDistrictStates.includes(display.state_abbr) ? (
