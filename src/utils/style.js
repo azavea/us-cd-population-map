@@ -216,6 +216,34 @@ export default {
       }
     },
     {
+      id: "states-polygons",
+      type: "fill",
+      source: "composite",
+      "source-layer": "azavea_us_states_polygons_albersusa",
+      layout: {},
+      paint: {
+        "fill-color": "#000",
+        "fill-opacity": 0
+      }
+    },
+    {
+      id: "states-selected",
+      type: "line",
+      source: "composite",
+      "source-layer": "azavea_us_states_polygons_albersusa",
+      layout: {},
+      paint: {
+        "line-color": "#000",
+        "line-opacity": [
+          "case",
+          ["boolean", ["feature-state", "selected"], false],
+          0.9,
+          0
+        ],
+        "line-width": 2
+      }
+    },
+    {
       id: "cd-highlight",
       type: "fill",
       source: "composite",
