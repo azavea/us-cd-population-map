@@ -6,8 +6,8 @@ export default {
       type: "vector",
       tiles: [window.location.origin + "/assets/tiles/{z}/{x}/{y}.pbf"],
       minzoom: 2,
-      maxzoom: 8
-    }
+      maxzoom: 8,
+    },
   },
   sprite: window.location.origin + "/assets/sprites/sprite",
   glyphs: window.location.origin + "/assets/fonts/{fontstack}/{range}.pbf",
@@ -15,7 +15,7 @@ export default {
     {
       id: "background",
       type: "background",
-      paint: { "background-color": "#fff" }
+      paint: { "background-color": "#fff" },
     },
     {
       id: "us-outline-polygons",
@@ -23,7 +23,7 @@ export default {
       source: "composite",
       "source-layer": "azavea_us_outline_albersusa",
       layout: {},
-      paint: { "fill-color": "#F0F0F0" }
+      paint: { "fill-color": "#F0F0F0" },
     },
     {
       id: "cd-polygons",
@@ -47,9 +47,9 @@ export default {
           0.02871,
           "#5ab4ac",
           0.0604,
-          "#01665e"
-        ]
-      }
+          "#01665e",
+        ],
+      },
     },
     {
       id: "urban-areas",
@@ -68,9 +68,9 @@ export default {
           6,
           0.05,
           10,
-          0.05
-        ]
-      }
+          0.05,
+        ],
+      },
     },
     // {
     //   id: "urban-areas-pattern",
@@ -108,9 +108,9 @@ export default {
           6,
           0.3,
           10,
-          0.5
-        ]
-      }
+          0.5,
+        ],
+      },
     },
     {
       id: "road-case",
@@ -129,9 +129,9 @@ export default {
           6,
           0.3,
           10,
-          0.5
-        ]
-      }
+          0.5,
+        ],
+      },
     },
     {
       id: "states-pattern",
@@ -147,9 +147,9 @@ export default {
           ["get", "fips"],
           ["30", "50", "56", "38", "46", "02"],
           true,
-          false
-        ]
-      ]
+          false,
+        ],
+      ],
     },
     {
       id: "cd-innerlines",
@@ -160,8 +160,8 @@ export default {
       paint: {
         "line-color": "#000",
         "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0.25, 10, 1.5],
-        "line-opacity": 0.5
-      }
+        "line-opacity": 0.5,
+      },
     },
     {
       id: "states-innerlines",
@@ -172,8 +172,8 @@ export default {
       paint: {
         "line-color": "#000",
         "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0.5, 10, 3],
-        "line-opacity": 0.5
-      }
+        "line-opacity": 0.5,
+      },
     },
     {
       id: "congressional-points",
@@ -187,20 +187,20 @@ export default {
           ["zoom"],
           ["to-string", ["get", "label"]],
           6,
-          ["to-string", ["get", "label"]]
+          ["to-string", ["get", "label"]],
         ],
         "text-font": ["ag-m"],
         "text-letter-spacing": 0,
         "text-transform": ["step", ["zoom"], "uppercase", 6, "none"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 6, 10, 10, 16]
+        "text-size": ["interpolate", ["linear"], ["zoom"], 6, 10, 10, 16],
       },
       paint: {
         "text-color": "#999",
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
-        "text-halo-blur": 0
-      }
+        "text-halo-blur": 0,
+      },
     },
     {
       id: "states-masks",
@@ -212,8 +212,8 @@ export default {
       paint: {
         "fill-color": "#fff",
         "fill-antialias": true,
-        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.8, 7, 0.95]
-      }
+        "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.8, 7, 0.95],
+      },
     },
     {
       id: "cd-highlight",
@@ -227,9 +227,9 @@ export default {
           "case",
           ["boolean", ["feature-state", "hover"], false],
           0.1,
-          0
-        ]
-      }
+          0,
+        ],
+      },
     },
     {
       id: "cd-selected",
@@ -243,10 +243,10 @@ export default {
           "case",
           ["boolean", ["feature-state", "selected"], false],
           0.9,
-          0
+          0,
         ],
-        "line-width": 3
-      }
+        "line-width": 3,
+      },
     },
     {
       id: "place-points-4",
@@ -265,19 +265,19 @@ export default {
           6,
           12,
           10,
-          14
+          14,
         ],
         "icon-image": "dot-11",
         "text-anchor": "bottom",
-        "text-justify": "center"
+        "text-justify": "center",
       },
       paint: {
         "text-color": ["step", ["zoom"], "#444", 6, "#222"],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
-        "text-halo-blur": 0
-      }
+        "text-halo-blur": 0,
+      },
     },
     {
       id: "place-points-3",
@@ -296,19 +296,19 @@ export default {
           6,
           12,
           10,
-          14
+          14,
         ],
         "icon-image": "dot-11",
         "text-anchor": "bottom",
-        "text-justify": "center"
+        "text-justify": "center",
       },
       paint: {
         "text-color": ["step", ["zoom"], "#444", 6, "#222"],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
-        "text-halo-blur": 0
-      }
+        "text-halo-blur": 0,
+      },
     },
     {
       id: "place-points-2",
@@ -327,19 +327,19 @@ export default {
           6,
           12,
           10,
-          14
+          14,
         ],
         "icon-image": "dot-11",
         "text-anchor": "bottom",
-        "text-justify": "center"
+        "text-justify": "center",
       },
       paint: {
         "text-color": ["step", ["zoom"], "#444", 6, "#222"],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
-        "text-halo-blur": 0
-      }
+        "text-halo-blur": 0,
+      },
     },
     {
       id: "place-points-1",
@@ -358,19 +358,19 @@ export default {
           6,
           12,
           10,
-          14
+          14,
         ],
         "icon-image": "dot-11",
         "text-anchor": "bottom",
-        "text-justify": "center"
+        "text-justify": "center",
       },
       paint: {
         "text-color": ["step", ["zoom"], "#444", 6, "#222"],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
-        "text-halo-blur": 0
-      }
+        "text-halo-blur": 0,
+      },
     },
     {
       id: "place-points-0",
@@ -390,19 +390,19 @@ export default {
           6,
           12,
           10,
-          14
+          14,
         ],
         "icon-image": "dot-11",
         "text-anchor": "bottom",
-        "text-justify": "center"
+        "text-justify": "center",
       },
       paint: {
         "text-color": ["step", ["zoom"], "#444", 6, "#222"],
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
-        "text-halo-blur": 0
-      }
+        "text-halo-blur": 0,
+      },
     },
     {
       id: "state-points",
@@ -417,20 +417,20 @@ export default {
           ["zoom"],
           ["to-string", ["get", "short"]],
           6,
-          ["to-string", ["get", "name"]]
+          ["to-string", ["get", "name"]],
         ],
         "text-font": ["ag-r"],
         "text-letter-spacing": ["step", ["zoom"], 0, 6, 0],
         "text-transform": ["step", ["zoom"], "none", 6, "none"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 3, 9, 4, 11, 6, 14]
+        "text-size": ["interpolate", ["linear"], ["zoom"], 3, 9, 4, 11, 6, 14],
       },
       paint: {
         "text-color": "#555",
         "text-opacity": 1,
         "text-halo-color": "#fff",
         "text-halo-width": 1,
-        "text-halo-blur": 0
-      }
-    }
-  ]
+        "text-halo-blur": 0,
+      },
+    },
+  ],
 };
