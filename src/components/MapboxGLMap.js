@@ -213,7 +213,36 @@ const MapboxGLMap = () => {
         { selected: true }
       );
       selectedStateId = {id:e.features[0].id,st:e.features[0].properties.abbr};
-    }
+      } else {
+        map.setFeatureState(
+            {
+              source: "composite",
+              sourceLayer: "azavea_us_states_polygons_albersusa",
+              id: selectedStateId.id
+            },
+            { selected: false }
+          );
+          setTrigger(new Date().getTime());
+
+          setDisplay(null);
+          var filter = ["all", ["match", ["get", "abbr"], [""], true, false]];
+          map.setFilter("states-masks", filter);
+          if (selectedDistrictId) {
+            map.setFeatureState(
+              {
+                source: "composite",
+                sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
+                id: selectedDistrictId
+              },
+              { selected: false }
+            );
+          }
+          setSelectedStateDistrictId(null);
+          setFocusDistrict(null);
+          setFocusState(null)
+          selectedStateId = {id:null,st:null}
+          return
+      }
   };
 
   const initSetBoundaryState = (st, map) => {
