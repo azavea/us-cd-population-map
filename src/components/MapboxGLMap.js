@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { connect } from 'react-redux'
 import mapboxgl from "mapbox-gl";
 import style from "../utils/style";
 import bbox from "../utils/bbox.js";
@@ -7,25 +8,25 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "../scss/index.scss";
 import "../";
 import closeIcon from "../images/times-regular.svg";
+import { setHoverCd, setHighlightCd, setSelectCd, setSelectSt } from "../redux/action-creators.js"
 
 import LineChart from "./LineChart";
 
-const MapboxGLMap = () => {
+let MapboxGLMap = (props) => {
+
+  const { hoverCd, selectCd, highlightCd } = props;
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
   let { router_id } = useParams();
   const [focusDistrict, setFocusDistrict] = useState(
     router_id ? router_id.toUpperCase() : null
   );
-  const [focusState, setFocusState] = useState(null)
+  const [isFocus, toggleFocus] = useState(false)
+  const [clrTrigger,invokeClrTrigger] = useState()
+  const [chartTrigger,invokeChartTrigger] = useState()
   const [initialLoad, setInitialLoad] = useState(false);
   const [display, setDisplay] = useState(null);
   const [chartDiffs, setChartDiffs] = useState([]);
-  var hoveredDistrictId = {id:null,st:null};
-  var selectedDistrictId;
-  var selectedStateId =  router_id? {id:'init',st:null}:{id:null,st:null};
-  const [selectedStateDistrictId, setSelectedStateDistrictId] = useState();
-  const [trigger, setTrigger] = useState();
   const singleDistrictStates = ["AK", "WY", "MT", "ND", "SD", "VT", "DE", "DC"];
 
   useEffect(() => {
@@ -33,23 +34,121 @@ const MapboxGLMap = () => {
   }, [router_id]);
 
   useEffect(() => {
-    if (map) {
-      setLegend(map);
-      setChartDiffs(calcChartDiffs(map));
+    if (!map) {
+      return;
     }
-  }, [focusDistrict]);
+    if (!hoverCd.n.id) {
+      return;
+    }
+
+    const params = {
+      id: hoverCd.n.id,
+      label: hoverCd.n.label
+    }
+    if (isFocus) {
+      if (hoverCd.n.st === selectCd.n.st) {
+        setHighlightCd(params)
+        return
+      }
+      //remove highlight outside state
+      const blankParams = {
+        id: null,
+        label: null
+      }
+      setHighlightCd(blankParams)
+    }
+    else {      
+      setHighlightCd(params)
+    }
+  }, [map, hoverCd]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+    updateDistrictHover(map,highlightCd.p.id,highlightCd.n.id)
+  }, [map, highlightCd]);
 
 
   useEffect(() => {
-    console.log('focusState is now ', focusState );
-  }, [focusState]);
+    if (!map) {
+      return;
+    }
+    if (!selectCd.n.id && !selectCd.p.id) {
+      //escape f before state initialized
+      return;
+    }
 
+    if (!isFocus) {
+      zoomToState(selectCd.n.st,map)
+      updateDistrictHighlight(map,selectCd.p.id,selectCd.n.id)
+      setLegend(map,selectCd.n.label)
+      setChartDiffs(calcChartDiffs(map,selectCd.n.label,selectCd.n.st))
+      setOverlayState(selectCd.n.st,map)
+      toggleFocus(true)
+      return
+    }
+
+    if (isFocus) {
+      if (selectCd.p.st !== selectCd.n.st) {
+        //lose focus
+        updateDistrictHighlight(map,selectCd.p.id,null)
+        setFocusDistrict(null)
+        setOverlayState(null,map)
+        toggleFocus(false)
+        const params = {
+          id: null,
+          label: null
+        }
+        setHighlightCd(params)
+        return
+      }
+      else if (selectCd.p.id !== selectCd.n.id) {
+        updateDistrictHighlight(map,selectCd.p.id,selectCd.n.id)
+        setLegend(map,selectCd.n.label)
+        setChartDiffs(calcChartDiffs(map,selectCd.n.label,selectCd.n.st))
+        return
+      }
+    }
+    
+  }, [map, selectCd]);
 
   useEffect(() => {
-    if (map) {
-      triggerCallback(map);
+    if (!map) {
+      return;
     }
-  }, [trigger]);
+    //remove hover
+    const params = {
+        id: null,
+        label: null
+      }
+    setHighlightCd(params)
+    updateDistrictHighlight(map,selectCd.n.id,null)
+    setFocusDistrict(null)
+    setOverlayState(null,map)
+    toggleFocus(false)
+
+  }, [clrTrigger]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+    var results = map
+      .querySourceFeatures("composite", {
+        sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
+        filter: ["==", "label", chartTrigger.label]
+      })
+
+    if (!results) {return}
+    const params = {
+      id: results[0].id,
+      label: results[0].properties.label,
+      st: results[0].properties.state_abbr
+    }
+    setSelectCd(params)    
+  }, [chartTrigger]);
+
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -119,154 +218,118 @@ const MapboxGLMap = () => {
     map.on("click", "cd-polygons", e => {
       handleClickDistrict(e, map);
     });
-    map.on("click", "states-polygons", e => {
-      handleClickState(e, map);
-    });
     const waiting = () => {
       if (!map.areTilesLoaded()) {
         setTimeout(waiting, 200);
       } else {
-        setLegend(map);
-        setChartDiffs(calcChartDiffs(map));
-        initMapLoadDistrictHighlight(map);
+        initLoadMapFromParams(map)
       }
     };
     waiting();
   };
 
+  const onMouseLeave = map => {
+    map.getCanvas().style.cursor = "";
+    const params = {
+        id: null,
+        label: null,
+        st: null
+      }
+    setHoverCd(params)
+  };
+
+  const onMouseMove = (e, map) => {
+    if (e.features.length > 0) {
+      map.getCanvas().style.cursor = "pointer";
+      const params = {
+        id: e.features[0].id,
+        label: e.features[0].properties.label,
+        st: e.features[0].properties.state_abbr
+      }
+      setHoverCd( params )
+    }
+  };
+
   const handleClickDistrict = (e, map) => {
     if (e.features.length > 0) {
-      if (selectedStateId.id === null || selectedStateId.st === e.features[0].properties.state_abbr ) {
-        setFocusDistrict(e.features[0].properties.label);
-        setDistrictSelectedHighlight(map);
-        return
+      const params = {
+        id: e.features[0].id, 
+        label: e.features[0].properties.label,
+        st: e.features[0].properties.state_abbr
       }
+      setSelectCd(params)
       return;
     }
   };
 
-  const setOverlayState = (stAbbr, map) => {
-    console.log(stAbbr);
-    var filter = ["all", ["match", ["get", "abbr"], [stAbbr], false, true]];
+  const setOverlayState = (stLabel, map) => {
+    let filter;
+    if (!stLabel) {
+      filter = ["all", ["match", ["get", "abbr"], [""], true, false]];
+    } 
+    else {
+      const stAbbr = stLabel;
+      filter = ["all", ["match", ["get", "abbr"], [stAbbr], false, true]];
+    }    
     map.setFilter("states-masks", filter);
   };
 
-  const handleClickState = (e, map) => {
-    setBoundaryState(e,map)
-  }
-
-  const setBoundaryState = (e, map) => {
-
-    if (e.features.length > 0) {
-      
-      if (selectedStateId.id === 'init') {
-        return;
-      }
-
-      if (selectedStateId.id === e.features[0].id) {
-        return;
-      }
-
-      if (selectedStateId.id !== null && selectedStateId !== e.features[0].id ) {
-
-        map.setFeatureState(
-          {
-            source: "composite",
-            sourceLayer: "azavea_us_states_polygons_albersusa",
-            id: selectedStateId.id
-          },
-          { selected: false }
-        );
-        setTrigger(new Date().getTime());
-
-        setDisplay(null);
-        var filter = ["all", ["match", ["get", "abbr"], [""], true, false]];
-        map.setFilter("states-masks", filter);
-        if (selectedDistrictId) {
-          map.setFeatureState(
-            {
-              source: "composite",
-              sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-              id: selectedDistrictId
-            },
-            { selected: false }
-          );
-        }
-        setSelectedStateDistrictId(null);
-        setFocusDistrict(null);
-        setFocusState(null)
-        selectedStateId = {id:null,st:null}
-        return
-      }
-
-      if (selectedStateId.id === null) {
-        zoomToState(e.features[0].properties.fips, map);
-        setOverlayState(e.features[0].properties.abbr, map);
-        setFocusState(e.features[0].id)
-      }
-      map.setFeatureState(
-        {
-          source: "composite",
-          sourceLayer: "azavea_us_states_polygons_albersusa",
-          id: e.features[0].id
-        },
-        { selected: true }
-      );
-      selectedStateId = {id:e.features[0].id,st:e.features[0].properties.abbr};
-      } else {
-        map.setFeatureState(
-            {
-              source: "composite",
-              sourceLayer: "azavea_us_states_polygons_albersusa",
-              id: selectedStateId.id
-            },
-            { selected: false }
-          );
-          setTrigger(new Date().getTime());
-
-          setDisplay(null);
-          var filter = ["all", ["match", ["get", "abbr"], [""], true, false]];
-          map.setFilter("states-masks", filter);
-          if (selectedDistrictId) {
-            map.setFeatureState(
-              {
-                source: "composite",
-                sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-                id: selectedDistrictId
-              },
-              { selected: false }
-            );
-          }
-          setSelectedStateDistrictId(null);
-          setFocusDistrict(null);
-          setFocusState(null)
-          selectedStateId = {id:null,st:null}
-          return
-      }
-  };
-
-  const initSetBoundaryState = (st, map) => {
+  const initLoadMapFromParams = map => {
+    if (!focusDistrict) {return}
     var results = map
       .querySourceFeatures("composite", {
-        sourceLayer: "azavea_us_states_polygons_albersusa",
-        filter: ["==", "abbr", st]
+        sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
+        filter: ["==", "label", focusDistrict]
       })
-      .map(x => x.id);
-
+      
     if (results.length === 0) {
       return;
     }
+    const params = {
+        id: results[0].id, 
+        label: results[0].properties.label,
+        st: results[0].properties.state_abbr
+      } 
+    setSelectCd(params)
+  }
 
+  const setLegend = (map,stLabel) => {
+    if (!stLabel) {
+      setDisplay(null);
+      return;
+    }
+    var results = map
+      .querySourceFeatures("composite", {
+        sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
+        filter: ["==", "label", stLabel]
+      }).map(x=>x.properties)
+      
+    if (results.length === 0) {
+      return;
+    }
+    setDisplay(results[0]);
+  };
+
+  const updateDistrictHighlight = (map,p,n) => {
+    if (p) {
+      map.setFeatureState(
+        {
+          source: "composite",
+          sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
+          id: p
+        },
+        { selected: false }
+      );
+    }
     map.setFeatureState(
       {
         source: "composite",
-        sourceLayer: "azavea_us_states_polygons_albersusa",
-        id: results[0]
+        sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
+        id: n
       },
-        { selected: true }
+      { selected: true }
     );
-    setFocusState(results[0])
-  };
+  }
 
   const initZoomToState = map => {
     if (!focusDistrict) {
@@ -275,234 +338,70 @@ const MapboxGLMap = () => {
     }
     const st = focusDistrict.split("-")[0].toUpperCase();
     var stFips = bbox.find(x => x.abbr === st);
-    if (!stFips || !stFips.fips) {
+    if (!stFips || !stFips.abbr) {
       setInitialLoad(true);
       return;
     }
-    zoomToState(stFips.fips, map);
+    zoomToState(stFips.abbr, map);
     setInitialLoad(true);
   };
 
-  const zoomToState = (stFips, map) => {
-    const box = bbox.find(x => x.fips === stFips).bbox;
+  const zoomToState = (stLabel, map) => {
+    if (!stLabel) {return}
+    const stAbbr = stLabel.split('-')[0].toUpperCase()
+    const box = bbox.find(x => x.abbr === stAbbr).bbox;
     var [xmin, ymin, xmax, ymax] = [...box];
     map.fitBounds([[xmax, ymax], [xmin, ymin]], {
       padding: { left: 15, bottom: 15, right: 300, top: 15 }
     });
   };
 
-  const setLegend = map => {
-    if (!focusDistrict) {
-      return;
-    }
+  const calcChartDiffs = (map,stLabel,stAbbr) => {
+    if (!stLabel) {return [];}
     var results = map
       .querySourceFeatures("composite", {
         sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-        filter: ["==", "label", focusDistrict]
-      })
-      .map(x => x.properties);
-    if (results.length === 0) {
-      return;
-    }
-    setDisplay(results[0]);
-  };
-
-  const onMouseMove = (e, map) => {
-    if (e.features.length > 0) {
-      map.getCanvas().style.cursor = "pointer";
-      if (hoveredDistrictId.id) {
-        map.setFeatureState(
-          {
-            source: "composite",
-            sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-            id: hoveredDistrictId.id
-          },
-          { hover: false }
-        );
-      }
-      hoveredDistrictId = {id:e.features[0].id,st:e.features[0].properties.state_abbr} ; 
-      setDistrictHover(map);
-    }
-  };
-
-  const calcChartDiffs = map => {
-    if (!focusDistrict) {
-      return;
-    }
-    const st = (focusDistrict.split("-")[0] || "").toUpperCase();
-    var results = map
-      .querySourceFeatures("composite", {
-        sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-        filter: ["==", "state_abbr", st]
+        filter: ["==", "state_abbr", stAbbr]
       })
       .map(x => ({
         dff_prc: x.properties.dff_prc * 100,
-        selected: x.properties.label === focusDistrict,
+        selected: x.properties.label === stLabel,
         label: x.properties.label
       }));
     return results;
   };
 
-  const initMapLoadDistrictHighlight = map => {
-    if (!focusDistrict) {
-      return;
-    }
-    var results = map
-      .querySourceFeatures("composite", {
-        sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-        filter: ["==", "label", focusDistrict]
-      })
-      
-    if (!results) {return}
-    hoveredDistrictId = {id:results[0].id,st:results[0].properties.state_abbr } ;
-    
-    setDistrictSelectedHighlight(map);
-    const st = (focusDistrict.split("-")[0] || "").toUpperCase();
-    var resultsState = map
-      .querySourceFeatures("composite", {
-        sourceLayer: "azavea_us_states_polygons_albersusa",
-        filter: ["==", "abbr", st]
-      })
-    if (!resultsState) {return}
-    selectedStateId = {id:resultsState[0].id,st:resultsState[0].properties.abbr }
-    const validPaths = bbox.map(x => x.abbr);
-    
-    if (validPaths.includes(st)) {
-      setOverlayState(st, map);
-      initSetBoundaryState(st, map)
-    }
-  };
-
-  const setDistrictHover = map => {
-    if (hoveredDistrictId.st === selectedStateId.st || selectedStateId.st === null) {
+  const updateDistrictHover = (map,p,n) => {
+    if (p) {
       map.setFeatureState(
         {
           source: "composite",
           sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-          id: hoveredDistrictId.id
-        },
-        { hover: true }
-      );
-    }
-    
-  };
-
-  const triggerCallback = map => {
-
-    if (selectedStateDistrictId) {
-      map.setFeatureState(
-        {
-          source: "composite",
-          sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-          id: selectedStateDistrictId
-        },
-        { selected: false }
-      );
-    }
-  };
-
-  const setDistrictSelectedHighlight = map => {
-    if (selectedDistrictId) {
-      map.setFeatureState(
-        {
-          source: "composite",
-          sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-          id: selectedDistrictId
-        },
-        { selected: false }
-      );
-    }
-
-    map.setFeatureState(
-      {
-        source: "composite",
-        sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-        id: hoveredDistrictId.id
-      },
-      { selected: true }
-    );
-    selectedDistrictId = hoveredDistrictId.id;
-    setTrigger(new Date().getTime());
-    setSelectedStateDistrictId(hoveredDistrictId.id);
-  };
-
-  const handleChartClick = d => {
-    setFocusDistrict(d.label);
-    var results = map
-      .querySourceFeatures("composite", {
-        sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-        filter: ["==", "label", d.label]
-      })
-      .map(x => x.id);
-
-    if (selectedStateDistrictId) {
-      map.setFeatureState(
-        {
-          source: "composite",
-          sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-          id: selectedStateDistrictId
-        },
-        { selected: false }
-      );
-    }
-
-    map.setFeatureState(
-      {
-        source: "composite",
-        sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-        id: results[0]
-      },
-      { selected: true }
-    );
-
-    setSelectedStateDistrictId(results[0]);
-    return;
-  };
-
-  const onMouseLeave = map => {
-    map.getCanvas().style.cursor = "";
-    if (hoveredDistrictId.id) {
-      map.setFeatureState(
-        {
-          source: "composite",
-          sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-          id: hoveredDistrictId.id
+          id: p
         },
         { hover: false }
       );
+
     }
-    hoveredDistrictId.id = null;
-  };
 
-  const handleLegendClearClick = selectedStateDistrictId => {
-
-    setDisplay(null);
-    var filter = ["all", ["match", ["get", "abbr"], [""], true, false]];
-    map.setFilter("states-masks", filter);
-    if (selectedStateDistrictId) {
-      map.setFeatureState(
+    map.setFeatureState(
         {
           source: "composite",
           sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-          id: selectedStateDistrictId
+          id: n
         },
-        { selected: false }
+        { hover: true }
       );
-    }
-    setSelectedStateDistrictId(null);
-    setFocusDistrict(null);
-    if (focusState) {
-      map.setFeatureState(
-          {
-            source: "composite",
-            sourceLayer: "azavea_us_states_polygons_albersusa",
-            id: focusState
-          },
-          { selected: false }
-        );
-      setFocusState(null)
-    }
+  }
+
+  const handleChartClick = d => {
+    invokeChartTrigger(d)
+  }
+
+  const handleLegendClearClick = () => {
+    invokeClrTrigger( new Date().getTime() )
   };
+
 
   const PanelHeader = () => {
     const displayLabel = display
@@ -518,7 +417,7 @@ const MapboxGLMap = () => {
               <h2 className="panel-detail">{displayLabel}</h2>
               <div
                 className="panel-clear"
-                onClick={() => handleLegendClearClick(selectedStateDistrictId)}
+                onClick={() => handleLegendClearClick()}
               >
                 <div className="clear-button">
                   <img src={closeIcon} className="close-icon" alt="Close" />
@@ -673,5 +572,15 @@ const MapboxGLMap = () => {
     </React.Fragment>
   );
 };
+
+function mapStateToProps(state) {
+  return {
+    highlightCd: state.highlightCd,
+    hoverCd: state.hoverCd,
+    selectCd: state.selectCd
+  };
+}
+
+MapboxGLMap = connect(mapStateToProps)(MapboxGLMap);
 
 export default MapboxGLMap;
