@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { XYPlot, XAxis, YAxis, MarkSeries, Hint } from "react-vis";
+import { XYPlot, XAxis, MarkSeries } from "react-vis";
 
 const LineChart = props => {
 	const [hintVal, setHintVal] = useState(null);

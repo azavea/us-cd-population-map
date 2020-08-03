@@ -8,7 +8,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "../scss/index.scss";
 import "../";
 import closeIcon from "../images/times-regular.svg";
-import { setHoverCd, setHighlightCd, setSelectCd, setSelectSt } from "../redux/action-creators.js"
+import { setHoverCd, setHighlightCd, setSelectCd} from "../redux/action-creators.js"
 
 import LineChart from "./LineChart";
 
@@ -96,6 +96,7 @@ let MapboxGLMap = (props) => {
         setFocusDistrict(null)
         setOverlayState(null,map)
         toggleFocus(false)
+        setLegend(map,null)
         const params = {
           id: null,
           label: null
@@ -125,6 +126,7 @@ let MapboxGLMap = (props) => {
     setHighlightCd(params)
     updateDistrictHighlight(map,selectCd.n.id,null)
     setFocusDistrict(null)
+    setLegend(map,null)
     setOverlayState(null,map)
     toggleFocus(false)
 
