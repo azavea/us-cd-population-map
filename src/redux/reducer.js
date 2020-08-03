@@ -37,8 +37,6 @@ function reducer(state = initialState, action) {
         }
       };
     case Constants.SET_SELECT_CD:
-      console.log( 'reducer select CD  ', action.option )
-
       return {
         ...state,
         selectCd: {
