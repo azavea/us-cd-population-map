@@ -1,4 +1,26 @@
+[Settings]
+  ID = "db-population-map"
+
+[build]
+  base = "."
+  publish = "build/"
+  command = "npm run build"
+  environment = { CI = "1" }
+
+# Redirect all routes to index.html, so that React Router
+# can handle routing.
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = """
+      frame-ancestors 'self' https://www.azavea.com https://azavea.staging.wpengine.com;
+      """
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"

@@ -151,7 +151,6 @@ let MapboxGLMap = (props) => {
     setSelectCd(params)    
   }, [chartTrigger]);
 
-
   useEffect(() => {
     mapboxgl.accessToken =
       "pk.eyJ1IjoiYXphdmVhIiwiYSI6IkFmMFBYUUUifQ.eYn6znWt8NzYOa3OrWop8A";
@@ -160,7 +159,7 @@ let MapboxGLMap = (props) => {
         -20.026114086648512,
         -13.080309755245814,
         19.700190980283185,
-        12.703790184833048
+        12.703790184833048,
       ];
 
       var url = new URL(window.location.href);
@@ -176,26 +175,35 @@ let MapboxGLMap = (props) => {
         minZoom: 2,
         maxZoom: 11,
         hash: false,
-        maxBounds: [[xmin - 40, ymin - 40], [xmax + 40, ymax + 40]]
+        maxBounds: [
+          [xmin - 40, ymin - 40],
+          [xmax + 40, ymax + 40],
+        ],
       });
 
       var nav = new mapboxgl.NavigationControl({
         showCompass: false,
-        showZoom: true
+        showZoom: true,
       });
 
       map.addControl(nav, "top-left");
 
-      map.fitBounds([[xmax, ymax], [xmin, ymin]], {
-        padding: embed
-          ? 5
-          : {
-              left: 10,
-              right: 340,
-              top: 0,
-              bottom: 0
-            }
-      });
+      map.fitBounds(
+        [
+          [xmax, ymax],
+          [xmin, ymin],
+        ],
+        {
+          padding: embed
+            ? 5
+            : {
+                left: 10,
+                right: 340,
+                top: 0,
+                bottom: 0,
+              },
+        }
+      );
       initZoomToState(map);
       map.dragRotate.disable();
       map.doubleClickZoom.disable();
@@ -208,16 +216,17 @@ let MapboxGLMap = (props) => {
     };
 
     if (!map) initializeMap({ setMap, mapContainer });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
-  const loadMap = function(map, layerName, styleMode) {
-    map.on("mousemove", "cd-polygons", e => {
+  const loadMap = function (map, layerName, styleMode) {
+    map.on("mousemove", "cd-polygons", (e) => {
       onMouseMove(e, map);
     });
     map.on("mouseleave", "cd-polygons", () => {
       onMouseLeave(map);
     });
-    map.on("click", "cd-polygons", e => {
+    map.on("click", "cd-polygons", (e) => {
       handleClickDistrict(e, map);
     });
     const waiting = () => {
@@ -281,7 +290,7 @@ let MapboxGLMap = (props) => {
     var results = map
       .querySourceFeatures("composite", {
         sourceLayer: "azavea_us_congressional_districts_polygons_albersusa",
-        filter: ["==", "label", focusDistrict]
+        filter: ["==", "label", focusDistrict],
       })
       
     if (results.length === 0) {
@@ -383,7 +392,6 @@ let MapboxGLMap = (props) => {
         },
         { hover: false }
       );
-
     }
 
     map.setFeatureState(
@@ -492,7 +500,7 @@ let MapboxGLMap = (props) => {
             </p>
             <p>
               Use this map to see which districts are over-or-under populated.
-              For more information, read the corresponding <a href="#">blog</a>.
+              For more information, read the corresponding&nbsp;<a href="https://www.azavea.com/blog/2020/07/29/which-congressional-districts-are-over-and-under-populated/">blog</a>.
             </p>
           </div>
         ) : singleDistrictStates.includes(display.state_abbr) ? (
@@ -568,7 +576,7 @@ let MapboxGLMap = (props) => {
 
   return (
     <React.Fragment>
-      <div className="map" ref={el => (mapContainer.current = el)} />
+      <div className="map" ref={(el) => (mapContainer.current = el)} />
       {map && initialLoad && <Panel />}
       <Legend />
     </React.Fragment>
