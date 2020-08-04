@@ -226,7 +226,7 @@ let MapboxGLMap = (props) => {
     map.on("mouseleave", "cd-polygons", () => {
       onMouseLeave(map);
     });
-    map.on("click", "cd-polygons", (e) => {
+    map.on("click", (e) => {
       handleClickDistrict(e, map);
     });
     const waiting = () => {
@@ -262,13 +262,21 @@ let MapboxGLMap = (props) => {
   };
 
   const handleClickDistrict = (e, map) => {
-    if (e.features.length > 0) {
+    var features = map.queryRenderedFeatures(e.point, {
+        layers: ["cd-polygons"]
+      });
+    
+    if (features.length > 0) {
       const params = {
-        id: e.features[0].id, 
-        label: e.features[0].properties.label,
-        st: e.features[0].properties.state_abbr
+        id: features[0].id, 
+        label: features[0].properties.label,
+        st: features[0].properties.state_abbr
       }
       setSelectCd(params)
+      return;
+    } // handle click outside map
+    else {
+      invokeClrTrigger( new Date().getTime() );
       return;
     }
   };
