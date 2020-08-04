@@ -60,7 +60,7 @@ let MapboxGLMap = (props) => {
     else {      
       setHighlightCd(params)
     }
-  }, [map, hoverCd]);
+  }, [map, hoverCd]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!map) {
@@ -112,7 +112,7 @@ let MapboxGLMap = (props) => {
       }
     }
     
-  }, [map, selectCd]);
+  }, [map, selectCd]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!map) {
@@ -130,7 +130,7 @@ let MapboxGLMap = (props) => {
     setOverlayState(null,map)
     toggleFocus(false)
 
-  }, [clrTrigger]);
+  }, [clrTrigger]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!map) {
@@ -149,7 +149,7 @@ let MapboxGLMap = (props) => {
       st: results[0].properties.state_abbr
     }
     setSelectCd(params)    
-  }, [chartTrigger]);
+  }, [chartTrigger]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     mapboxgl.accessToken =
