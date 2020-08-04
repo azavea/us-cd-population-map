@@ -43,7 +43,7 @@ const LineChart = (props) => {
             const p = {
               x: data[o.index].x,
               label: data[o.index].label,
-              xOffset: o.innerX - 5,
+              xOffset: o.innerX - 15,
             };
             setHintVal(p);
           }}
