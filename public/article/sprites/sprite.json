@@ -1,0 +1,72 @@
+{
+  "circle-0": {
+    "height": 10,
+    "pixelRatio": 1,
+    "width": 10,
+    "x": 11,
+    "y": 11
+  },
+  "circle-1": {
+    "height": 10,
+    "pixelRatio": 1,
+    "width": 10,
+    "x": 22,
+    "y": 0
+  },
+  "circle-2": {
+    "height": 10,
+    "pixelRatio": 1,
+    "width": 10,
+    "x": 32,
+    "y": 0
+  },
+  "crosshatch": {
+    "height": 8,
+    "pixelRatio": 1,
+    "width": 8,
+    "x": 0,
+    "y": 22
+  },
+  "dot-10": {
+    "height": 11,
+    "pixelRatio": 1,
+    "width": 11,
+    "x": 0,
+    "y": 0
+  },
+  "dot-11": {
+    "height": 11,
+    "pixelRatio": 1,
+    "width": 11,
+    "x": 11,
+    "y": 0
+  },
+  "dot-9": {
+    "height": 11,
+    "pixelRatio": 1,
+    "width": 11,
+    "x": 0,
+    "y": 11
+  },
+  "line-0": {
+    "height": 5,
+    "pixelRatio": 1,
+    "width": 5,
+    "x": 8,
+    "y": 22
+  },
+  "line-1": {
+    "height": 10,
+    "pixelRatio": 1,
+    "width": 10,
+    "x": 21,
+    "y": 11
+  },
+  "line-2": {
+    "height": 10,
+    "pixelRatio": 1,
+    "width": 10,
+    "x": 31,
+    "y": 11
+  }
+}

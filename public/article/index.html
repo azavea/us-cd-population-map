@@ -1,0 +1,1221 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Which Congressional Districts are Over and Under Populated |
+      DistrictBuilder
+    </title>
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1 class="sr-only">DistrictBuilder</h1>
+    <div class="container">
+      <header>
+        <a href="https://districtbuilder.org"
+          ><img
+            class="logo"
+            width="190"
+            height="28"
+            src="img/db-logo.svg"
+            alt=""
+        /></a>
+        <a class="home" href="https://districtbuilder.org"
+          ><img
+            class="home-logo"
+            width="18"
+            height="18"
+            src="img/icon-door.svg"
+            alt=""
+          />
+          <span>Back to homepage</span></a
+        >
+      </header>
+    </div>
+    <div class="container">
+      <h2>Which Congressional Districts are Over and Under Populated</h2>
+      <p class="byline">
+        By Daniel McGlone, Jeff Frankl, and Luke McKinstry on July 29th, 2020
+      </p>
+      <p>
+        Electoral districts are typically redrawn every ten years. As
+        populations shift during these ten-year cycles, some districts become
+        “over” or “under” populated. Overpopulated districts have grown faster
+        than the state as a whole, while underpopulated districts have grown
+        slower than the state, or even declined in population. This map displays
+        the latest population estimates for Congressional districts in the U.S.
+        and compares it to the state's target population for districts.
+      </p>
+      <div class="legend">
+        <div class="legend-top">
+          <div class="legend-label">Underpopulated</div>
+          <div class="legend-label">Even</div>
+          <div class="legend-label">Overpopulated</div>
+        </div>
+        <div class="legend-bottom">
+          <div class="legend-color" style="background: #8c510a"></div>
+          <div class="legend-color" style="background: #d8b365"></div>
+          <div class="legend-color" style="background: #f6e8c3"></div>
+          <div class="legend-color" style="background: #f0f0f0"></div>
+          <div class="legend-color" style="background: #c7eae5"></div>
+          <div class="legend-color" style="background: #5ab4ac"></div>
+          <div class="legend-color" style="background: #01665e"></div>
+        </div>
+      </div>
+      <div id="map"></div>
+      <p>
+        The foundation of the U.S. democratic system is based on fair
+        representation of its residents. The story of representation is
+        complicated, hard-fought, and still evolving. Currently, representation
+        through the 435 Congressional districts is decided in elections every
+        two years but districts are redrawn every ten years after the decennial
+        Census is conducted. Districts are drawn by states to have exactly
+        equal, or as close as possible, number of people within the boundaries
+        of each. That population is determined from dividing the state’s
+        population by the number of districts, producing a number sometimes
+        called the target or ideal population.
+      </p>
+
+      <h3>Over and under populated, mapped</h3>
+      <p>
+        Using the latest U.S. Census Bureau estimates, we mapped the
+        over-and-under population of Congressional representation across the
+        country. For each state, we calculated the target population (state’s
+        population divided by the number of districts). We styled the districts
+        by the percentage over or underpopulated.
+      </p>
+
+      <h3>What it tells us about representation</h3>
+      <p>
+        How equal are Congressional districts supposed to be? Exactly equal, if
+        possible, with only as much as one person deviation among districts,
+        ever since Vieth v Jubelirer in 2004. This is, of course, an
+        unmaintainable standard in between decades, as the population has
+        changed even before the districts go into effect. Even when districts
+        are redrawn mid-decade, such as recently in North Carolina, they are
+        instructed to use the 2010 population data.
+      </p>
+
+      <p>
+        Nevertheless, it can be an interesting exercise to look at
+        representation of the most over and underpopulated districts.
+      </p>
+
+      <h4>The most overpopulated congressional districts</h4>
+      <p class="description">
+        Districts with the most deviation from how they would be redrawn based
+        on the latest population estimates.
+      </p>
+      <table class="sr-only">
+        <thead>
+          <tr>
+            <th>District</th>
+            <th>Party</th>
+            <th>Deviation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>TX-22</td>
+            <td>Republican</td>
+            <td>13.6</td>
+          </tr>
+          <tr>
+            <td>FL-9</td>
+            <td>Democrat</td>
+            <td>9.7</td>
+          </tr>
+          <tr>
+            <td>TX-26</td>
+            <td>Republican</td>
+            <td>9.5</td>
+          </tr>
+          <tr>
+            <td>NC-2</td>
+            <td>Republican</td>
+            <td>8.6</td>
+          </tr>
+          <tr>
+            <td>NC-12</td>
+            <td>Democrat</td>
+            <td>8.5</td>
+          </tr>
+          <tr>
+            <td>TX-10</td>
+            <td>Republican</td>
+            <td>8.4</td>
+          </tr>
+          <tr>
+            <td>SC-1</td>
+            <td>Democrat</td>
+            <td>8.3</td>
+          </tr>
+          <tr>
+            <td>VA-10</td>
+            <td>Democrat</td>
+            <td>8.1</td>
+          </tr>
+          <tr>
+            <td>GA-7</td>
+            <td>Republican</td>
+            <td>7.9</td>
+          </tr>
+          <tr>
+            <td>OH-3</td>
+            <td>Democrat</td>
+            <td>7.9</td>
+          </tr>
+          <tr>
+            <td>TX-13</td>
+            <td>Republican</td>
+            <td>-8.3</td>
+          </tr>
+          <tr>
+            <td>GA-2</td>
+            <td>Democrat</td>
+            <td>-8.2</td>
+          </tr>
+          <tr>
+            <td>TX-1</td>
+            <td>Republican</td>
+            <td>-7.3</td>
+          </tr>
+          <tr>
+            <td>NC-1</td>
+            <td>Democrat</td>
+            <td>-7.1</td>
+          </tr>
+          <tr>
+            <td>VA-9</td>
+            <td>Republican</td>
+            <td>-7</td>
+          </tr>
+          <tr>
+            <td>AZ-2</td>
+            <td>Democrat</td>
+            <td>-6.7</td>
+          </tr>
+          <tr>
+            <td>TX-34</td>
+            <td>Democrat</td>
+            <td>-6.7</td>
+          </tr>
+          <tr>
+            <td>CO-3</td>
+            <td>Republican</td>
+            <td>-6.5</td>
+          </tr>
+          <tr>
+            <td>SC-6</td>
+            <td>Democrat</td>
+            <td>-6.4</td>
+          </tr>
+          <tr>
+            <td>TX-19</td>
+            <td>Republican</td>
+            <td>-6.3</td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="g-chart-box" class="ai2html">
+        <!-- Artboard: wide -->
+        <div
+          id="g-chart-wide"
+          class="g-artboard"
+          style="width: 800px; height: 548.104274886682px"
+          data-aspect-ratio="1.46"
+          data-min-width="800"
+        >
+          <div style=""></div>
+          <img
+            id="g-chart-wide-img"
+            class="g-chart-wide-img g-aiImg"
+            loading="lazy"
+            alt=""
+            src="img/chart-wide.png"
+          />
+          <div
+            id="g-ai0-1"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: -0.1824%;
+              left: 40.8943%;
+              margin-left: -3.25%;
+              width: 6.5%;
+            "
+          >
+            <p class="g-pstyle0">0%</p>
+          </div>
+          <div
+            id="g-ai0-2"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: -0.1824%;
+              left: 87.7203%;
+              margin-left: -8.8125%;
+              width: 17.625%;
+            "
+          >
+            <p class="g-pstyle0">10%</p>
+          </div>
+          <div
+            id="g-ai0-3"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: -0.1824%;
+              left: 64.3421%;
+              margin-left: -5.5%;
+              width: 11%;
+            "
+          >
+            <p class="g-pstyle0">5%</p>
+          </div>
+          <div
+            id="g-ai0-4"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: 0%;
+              left: 17.5662%;
+              margin-left: -9.4375%;
+              width: 18.875%;
+            "
+          >
+            <p class="g-pstyle0">-5%</p>
+          </div>
+          <div
+            id="g-ai0-5"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 6.0208%; right: 60.2978%; width: 20.625%"
+          >
+            <p class="g-pstyle1">TX-22</p>
+          </div>
+          <div
+            id="g-ai0-6"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 10.7644%; right: 60.2978%; width: 20.625%"
+          >
+            <p class="g-pstyle1">FL-9</p>
+          </div>
+          <div
+            id="g-ai0-7"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 15.508%; right: 60.2978%; width: 20.625%"
+          >
+            <p class="g-pstyle1">TX-26</p>
+          </div>
+          <div
+            id="g-ai0-8"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 20.2516%; right: 60.2978%; width: 20.625%"
+          >
+            <p class="g-pstyle1">NC-2</p>
+          </div>
+          <div
+            id="g-ai0-9"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 24.9952%; right: 60.2978%; width: 20.625%"
+          >
+            <p class="g-pstyle1">NC-12</p>
+          </div>
+          <div
+            id="g-ai0-10"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 29.7389%; right: 60.2978%; width: 20.625%"
+          >
+            <p class="g-pstyle1">TX-10</p>
+          </div>
+          <div
+            id="g-ai0-11"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 34.4825%; right: 60.2978%; width: 20.625%"
+          >
+            <p class="g-pstyle1">SC-1</p>
+          </div>
+          <div
+            id="g-ai0-12"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 39.2261%; right: 60.2978%; width: 20.625%"
+          >
+            <p class="g-pstyle1">VA-10</p>
+          </div>
+          <div
+            id="g-ai0-13"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 43.9697%; right: 60.2978%; width: 20.625%"
+          >
+            <p class="g-pstyle1">GA-7</p>
+          </div>
+          <div
+            id="g-ai0-14"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 48.5309%; right: 60.2978%; width: 20.625%"
+          >
+            <p class="g-pstyle1">OH-3</p>
+          </div>
+          <div
+            id="g-ai0-15"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 53.2745%; left: 42.1268%; width: 22.625%"
+          >
+            <p>TX-13</p>
+          </div>
+          <div
+            id="g-ai0-16"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 58.0182%; left: 42.1268%; width: 22.625%"
+          >
+            <p>GA-2</p>
+          </div>
+          <div
+            id="g-ai0-17"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 62.7618%; left: 42.1268%; width: 22.625%"
+          >
+            <p>TX-1</p>
+          </div>
+          <div
+            id="g-ai0-18"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 67.5054%; left: 42.1268%; width: 22.625%"
+          >
+            <p>NC-1</p>
+          </div>
+          <div
+            id="g-ai0-19"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 72.249%; left: 42.1268%; width: 22.625%"
+          >
+            <p>VA-9</p>
+          </div>
+          <div
+            id="g-ai0-20"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 76.9926%; left: 42.1268%; width: 22.625%"
+          >
+            <p>AZ-2</p>
+          </div>
+          <div
+            id="g-ai0-21"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 81.9187%; left: 42.1268%; width: 22.625%"
+          >
+            <p>TX-34</p>
+          </div>
+          <div
+            id="g-ai0-22"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 86.6623%; left: 42.1268%; width: 22.625%"
+          >
+            <p>CO-3</p>
+          </div>
+          <div
+            id="g-ai0-23"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 91.406%; left: 42.1268%; width: 22.625%"
+          >
+            <p>SC-6</p>
+          </div>
+          <div
+            id="g-ai0-24"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 96.1496%; left: 42.1268%; width: 22.625%"
+          >
+            <p>TX-19</p>
+          </div>
+        </div>
+
+        <!-- Artboard: narrow -->
+        <div
+          id="g-chart-narrow"
+          class="g-artboard"
+          style="width: 600px; height: 742px"
+          data-aspect-ratio="0.809"
+          data-min-width="600"
+          data-max-width="799"
+        >
+          <div style=""></div>
+          <img
+            id="g-chart-narrow-img"
+            class="g-chart-narrow-img g-aiImg"
+            loading="lazy"
+            alt=""
+            src="img/chart-narrow.png"
+          />
+          <div
+            id="g-ai1-1"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: -0.2695%;
+              left: 18.0036%;
+              margin-left: -12.5833%;
+              width: 25.1667%;
+            "
+          >
+            <p class="g-pstyle0">-5%</p>
+          </div>
+          <div
+            id="g-ai1-2"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: -0.2695%;
+              left: 40.9751%;
+              margin-left: -4.3333%;
+              width: 8.6667%;
+            "
+          >
+            <p class="g-pstyle0">0%</p>
+          </div>
+          <div
+            id="g-ai1-3"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: -0.2695%;
+              left: 87.7123%;
+              margin-left: -11.75%;
+              width: 23.5%;
+            "
+          >
+            <p class="g-pstyle0">10%</p>
+          </div>
+          <div
+            id="g-ai1-4"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: -0.2695%;
+              left: 64.7349%;
+              margin-left: -7.3333%;
+              width: 14.6667%;
+            "
+          >
+            <p class="g-pstyle0">5%</p>
+          </div>
+          <div
+            id="g-ai1-5"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 4.8518%; right: 60.7426%; width: 27.5%"
+          >
+            <p class="g-pstyle1">TX-22</p>
+          </div>
+          <div
+            id="g-ai1-6"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 9.7035%; right: 60.7426%; width: 27.5%"
+          >
+            <p class="g-pstyle1">FL-9</p>
+          </div>
+          <div
+            id="g-ai1-7"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 14.4205%; right: 60.7426%; width: 27.5%"
+          >
+            <p class="g-pstyle1">TX-26</p>
+          </div>
+          <div
+            id="g-ai1-8"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 19.2722%; right: 60.7426%; width: 27.5%"
+          >
+            <p class="g-pstyle1">NC-2</p>
+          </div>
+          <div
+            id="g-ai1-9"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 23.9892%; right: 60.7426%; width: 27.5%"
+          >
+            <p class="g-pstyle1">NC-12</p>
+          </div>
+          <div
+            id="g-ai1-10"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 28.841%; right: 60.7426%; width: 27.5%"
+          >
+            <p class="g-pstyle1">TX-10</p>
+          </div>
+          <div
+            id="g-ai1-11"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 33.558%; right: 60.7426%; width: 27.5%"
+          >
+            <p class="g-pstyle1">SC-1</p>
+          </div>
+          <div
+            id="g-ai1-12"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 38.4097%; right: 60.7426%; width: 27.5%"
+          >
+            <p class="g-pstyle1">VA-10</p>
+          </div>
+          <div
+            id="g-ai1-13"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 43.1267%; right: 60.7426%; width: 27.5%"
+          >
+            <p class="g-pstyle1">GA-7</p>
+          </div>
+          <div
+            id="g-ai1-14"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 47.9784%; right: 60.7426%; width: 27.5%"
+          >
+            <p class="g-pstyle1">OH-3</p>
+          </div>
+          <div
+            id="g-ai1-15"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 52.6954%; left: 42.4902%; width: 30.1667%"
+          >
+            <p>TX-13</p>
+          </div>
+          <div
+            id="g-ai1-16"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 57.5472%; left: 42.4902%; width: 30.1667%"
+          >
+            <p>GA-2</p>
+          </div>
+          <div
+            id="g-ai1-17"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 62.3989%; left: 42.4902%; width: 30.1667%"
+          >
+            <p>TX-1</p>
+          </div>
+          <div
+            id="g-ai1-18"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 67.1159%; left: 42.4902%; width: 30.1667%"
+          >
+            <p>NC-1</p>
+          </div>
+          <div
+            id="g-ai1-19"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 71.9677%; left: 42.4902%; width: 30.1667%"
+          >
+            <p>VA-9</p>
+          </div>
+          <div
+            id="g-ai1-20"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 76.8194%; left: 42.4902%; width: 30.1667%"
+          >
+            <p>AZ-2</p>
+          </div>
+          <div
+            id="g-ai1-21"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 81.6712%; left: 42.4902%; width: 30.1667%"
+          >
+            <p>TX-34</p>
+          </div>
+          <div
+            id="g-ai1-22"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 86.3881%; left: 42.4902%; width: 30.1667%"
+          >
+            <p>CO-3</p>
+          </div>
+          <div
+            id="g-ai1-23"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 91.2399%; left: 42.4902%; width: 30.1667%"
+          >
+            <p>SC-6</p>
+          </div>
+          <div
+            id="g-ai1-24"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 96.0916%; left: 42.4902%; width: 30.1667%"
+          >
+            <p>TX-19</p>
+          </div>
+        </div>
+
+        <!-- Artboard: mobile -->
+        <div
+          id="g-chart-mobile"
+          class="g-artboard"
+          style="max-width: 400px; max-height: 742px"
+          data-aspect-ratio="0.539"
+          data-min-width="0"
+          data-max-width="599"
+        >
+          <div style="padding: 0 0 185.5% 0"></div>
+          <img
+            id="g-chart-mobile-img"
+            class="g-chart-mobile-img g-aiImg"
+            loading="lazy"
+            alt=""
+            src="img/chart-mobile.png"
+          />
+          <div
+            id="g-ai2-1"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: -0.2695%;
+              left: 17.2018%;
+              margin-left: -18.875%;
+              width: 37.75%;
+            "
+          >
+            <p class="g-pstyle0">-5%</p>
+          </div>
+          <div
+            id="g-ai2-2"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: -0.2695%;
+              left: 40.6407%;
+              margin-left: -6.5%;
+              width: 13%;
+            "
+          >
+            <p class="g-pstyle0">0%</p>
+          </div>
+          <div
+            id="g-ai2-3"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: -0.2695%;
+              left: 87.6258%;
+              margin-left: -17.625%;
+              width: 35.25%;
+            "
+          >
+            <p class="g-pstyle0">10%</p>
+          </div>
+          <div
+            id="g-ai2-4"
+            class="g-Layer_1 g-aiAbs"
+            style="top: -0.2695%; left: 64.429%; margin-left: -11%; width: 22%"
+          >
+            <p class="g-pstyle0">5%</p>
+          </div>
+          <div
+            id="g-ai2-5"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 4.717%; right: 61.712%; width: 37.75%"
+          >
+            <p class="g-pstyle1">TX-22</p>
+          </div>
+          <div
+            id="g-ai2-6"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 9.5687%; right: 61.712%; width: 37.75%"
+          >
+            <p class="g-pstyle1">FL-9</p>
+          </div>
+          <div
+            id="g-ai2-7"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 14.4205%; right: 61.712%; width: 37.75%"
+          >
+            <p class="g-pstyle1">TX-26</p>
+          </div>
+          <div
+            id="g-ai2-8"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 19.1375%; right: 61.712%; width: 37.75%"
+          >
+            <p class="g-pstyle1">NC-2</p>
+          </div>
+          <div
+            id="g-ai2-9"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 23.8544%; right: 61.712%; width: 37.75%"
+          >
+            <p class="g-pstyle1">NC-12</p>
+          </div>
+          <div
+            id="g-ai2-10"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 28.7062%; right: 61.712%; width: 37.75%"
+          >
+            <p class="g-pstyle1">TX-10</p>
+          </div>
+          <div
+            id="g-ai2-11"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 33.4232%; right: 61.712%; width: 37.75%"
+          >
+            <p class="g-pstyle1">SC-1</p>
+          </div>
+          <div
+            id="g-ai2-12"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 38.2749%; right: 61.712%; width: 37.75%"
+          >
+            <p class="g-pstyle1">VA-10</p>
+          </div>
+          <div
+            id="g-ai2-13"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 42.9919%; right: 61.712%; width: 37.75%"
+          >
+            <p class="g-pstyle1">GA-7</p>
+          </div>
+          <div
+            id="g-ai2-14"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 47.8437%; right: 61.712%; width: 37.75%"
+          >
+            <p class="g-pstyle1">OH-3</p>
+          </div>
+          <div
+            id="g-ai2-15"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 52.6954%; left: 43.4462%; width: 45.25%"
+          >
+            <p>TX-13</p>
+          </div>
+          <div
+            id="g-ai2-16"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 57.5472%; left: 43.4462%; width: 45.25%"
+          >
+            <p>GA-2</p>
+          </div>
+          <div
+            id="g-ai2-17"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 62.2642%; left: 43.4462%; width: 45.25%"
+          >
+            <p>TX-1</p>
+          </div>
+          <div
+            id="g-ai2-18"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 67.1159%; left: 43.4462%; width: 45.25%"
+          >
+            <p>NC-1</p>
+          </div>
+          <div
+            id="g-ai2-19"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 71.9677%; left: 43.4462%; width: 45.25%"
+          >
+            <p>VA-9</p>
+          </div>
+          <div
+            id="g-ai2-20"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 76.8194%; left: 43.4462%; width: 45.25%"
+          >
+            <p>AZ-2</p>
+          </div>
+          <div
+            id="g-ai2-21"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 81.5364%; left: 43.4462%; width: 45.25%"
+          >
+            <p>TX-34</p>
+          </div>
+          <div
+            id="g-ai2-22"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 86.3881%; left: 43.4462%; width: 45.25%"
+          >
+            <p>CO-3</p>
+          </div>
+          <div
+            id="g-ai2-23"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 91.2399%; left: 43.4462%; width: 45.25%"
+          >
+            <p>SC-6</p>
+          </div>
+          <div
+            id="g-ai2-24"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 96.0916%; left: 43.4462%; width: 45.25%"
+          >
+            <p>TX-19</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="source">Source: U.S. Census Bureau</p>
+
+      <h3>What it can predict for redistricting</h3>
+      <p>
+        The process for redistricting varies by state. In most states, the
+        legislature is in charge of redrawing Congressional districts. A handful
+        of other states have independent or citizen-led commissions tasked with
+        redrawing the map. However, in every case redistricting will be impacted
+        by two factors: the state’s population and the current districts. The
+        state’s population will determine how many representatives are
+        reapportioned and then must be drawn into districts. The population will
+        determine how those districts are shaped and formed. If a state’s
+        delegation is favorable to whichever party is drawing the districts,
+        it’s likely there won’t be much in the way of radical change—districts
+        that are underpopulated will grow in size and districts that are
+        overpopulated will have to shrink somewhat. They’ll try to keep the same
+        or even better electoral outcome for the party.
+      </p>
+
+      <p>
+        Population growth has been fastest in the suburbs, which have been
+        trending Democratic Though the most overpopulated districts are
+        represented evenly by Democrats and Republicans, the fastest-growing
+        parts of the country the past decade have been the suburbs—whose voters
+        are
+        <a
+          href="https://www.nytimes.com/2019/10/25/us/democrats-republicans-suburbs.html"
+          >trending Democratic</a
+        >. For redistricting, it might mean that if Republicans are trying to
+        gerrymander they will create more rifts and splits in suburban
+        communities, dividing them while keeping rural areas whole. Democrats
+        might do the opposite, dividing the rural areas to make sure that city
+        and suburban voters will outnumber them in districts. A large part of
+        the Democratic trend in the suburbs is a result of increasing diversity,
+        which will also have implications for how districts are redrawn. More
+        majority-minority districts and minority opportunity districts will
+        surely have to be drawn, particularly in states like Texas.
+      </p>
+
+      <h4>The most overpopulated district</h4>
+      <p class="description">
+        Texas’s 22nd district is a rapidly diversifying area sprawling south of
+        Houston.
+      </p>
+
+      <div id="g-tx-map-box" class="ai2html">
+        <!-- Artboard: map-wide -->
+        <div
+          id="g-tx-map-map-wide"
+          class="g-artboard"
+          style="width: 800px; height: 622.000000000001px"
+          data-aspect-ratio="1.286"
+          data-min-width="800"
+        >
+          <div style=""></div>
+          <img
+            id="g-tx-map-map-wide-img"
+            loading="lazy"
+            class="g-tx-map-map-wide-img g-aiImg"
+            alt=""
+            src="img/tx-map-map-wide.png"
+          />
+          <div
+            id="g-ai0-1"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: 8.1994%;
+              left: 36.3781%;
+              margin-left: -7.1875%;
+              width: 14.375%;
+            "
+          >
+            <p class="g-pstyle0">Amarillo</p>
+          </div>
+          <div
+            id="g-ai0-2"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: 36.1736%;
+              left: 74.26%;
+              margin-left: -14.3125%;
+              width: 28.625%;
+            "
+          >
+            <p class="g-pstyle1">Dallas</p>
+          </div>
+          <div
+            id="g-ai0-3"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 43.0868%; left: 2.1591%; width: 28.625%"
+          >
+            <p>El Paso</p>
+          </div>
+          <div
+            id="g-ai0-4"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 56.9132%; right: 33.8262%; width: 10.875%"
+          >
+            <p class="g-pstyle2">Austin</p>
+          </div>
+          <div
+            id="g-ai0-5"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 61.254%; left: 87.4779%; width: 16.375%"
+          >
+            <p class="g-pstyle3">Houston</p>
+          </div>
+          <div
+            id="g-ai0-6"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 64.3087%; right: 39.4199%; width: 17.125%"
+          >
+            <p class="g-pstyle2">San Antonio</p>
+          </div>
+          <div
+            id="g-ai0-7"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 71.2219%; left: 89.3169%; width: 7.875%"
+          >
+            <p class="g-pstyle4">TX-22</p>
+          </div>
+          <div
+            id="g-ai0-8"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 80.8682%; left: 71.3183%; width: 28.625%"
+          >
+            <p>Corpus Christi</p>
+          </div>
+        </div>
+
+        <!-- Artboard: map-narrow -->
+        <div
+          id="g-tx-map-map-narrow"
+          class="g-artboard"
+          style="width: 660px; height: 514.671995689685px"
+          data-aspect-ratio="1.282"
+          data-min-width="660"
+          data-max-width="799"
+        >
+          <div style=""></div>
+          <img
+            id="g-tx-map-map-narrow-img"
+            class="g-tx-map-map-narrow-img g-aiImg"
+            loading="lazy"
+            alt=""
+            src="img/tx-map-map-narrow.png"
+          />
+          <div
+            id="g-ai1-1"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: 8.7434%;
+              left: 36.2549%;
+              margin-left: -7.1212%;
+              width: 14.2424%;
+            "
+          >
+            <p class="g-pstyle0">Amarillo</p>
+          </div>
+          <div
+            id="g-ai1-2"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: 36.5281%;
+              left: 74.1487%;
+              margin-left: -14.3182%;
+              width: 28.6364%;
+            "
+          >
+            <p class="g-pstyle1">Dallas</p>
+          </div>
+          <div
+            id="g-ai1-3"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 43.5229%; left: 2.1549%; width: 28.6364%"
+          >
+            <p>El Paso</p>
+          </div>
+          <div
+            id="g-ai1-4"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 57.1238%; right: 33.9%; width: 10.9091%"
+          >
+            <p class="g-pstyle2">Austin</p>
+          </div>
+          <div
+            id="g-ai1-5"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 60.0382%; left: 86.7548%; width: 14.8485%"
+          >
+            <p class="g-pstyle3">Houston</p>
+          </div>
+          <div
+            id="g-ai1-6"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 64.5071%; right: 39.5085%; width: 17.1212%"
+          >
+            <p class="g-pstyle2">San Antonio</p>
+          </div>
+          <div
+            id="g-ai1-7"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 71.3076%; left: 89.1426%; width: 7.8788%"
+          >
+            <p class="g-pstyle4">TX-22</p>
+          </div>
+          <div
+            id="g-ai1-8"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 81.0225%; left: 71.1791%; width: 28.6364%"
+          >
+            <p>Corpus Christi</p>
+          </div>
+        </div>
+
+        <!-- Artboard: map-mobile -->
+        <div
+          id="g-tx-map-map-mobile"
+          class="g-artboard"
+          style="max-width: 600px; max-height: 466px"
+          data-aspect-ratio="1.288"
+          data-min-width="0"
+          data-max-width="659"
+        >
+          <div style="padding: 0 0 77.6667% 0"></div>
+          <img
+            id="g-tx-map-map-mobile-img"
+            class="g-tx-map-map-mobile-img g-aiImg"
+            loading="lazy"
+            alt=""
+            src="img/tx-map-map-mobile.png"
+          />
+          <div
+            id="g-ai2-1"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: 7.7253%;
+              left: 36.3332%;
+              margin-left: -7.1667%;
+              width: 14.3333%;
+            "
+          >
+            <p class="g-pstyle0">Amarillo</p>
+          </div>
+          <div
+            id="g-ai2-2"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: 36.4807%;
+              left: 74.2567%;
+              margin-left: -14.3333%;
+              width: 28.6667%;
+            "
+          >
+            <p class="g-pstyle1">Dallas</p>
+          </div>
+          <div
+            id="g-ai2-3"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 43.133%; left: 2.135%; width: 29.1667%"
+          >
+            <p class="g-pstyle2">El Paso</p>
+          </div>
+          <div
+            id="g-ai2-4"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 56.867%; right: 33.7929%; width: 21.8333%"
+          >
+            <p class="g-pstyle3">Austin</p>
+          </div>
+          <div
+            id="g-ai2-5"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 60.9442%; left: 87.4471%; width: 21.8333%"
+          >
+            <p>Houston</p>
+          </div>
+          <div
+            id="g-ai2-6"
+            class="g-Layer_1 g-aiAbs"
+            style="top: 64.1631%; right: 39.7618%; width: 28.6667%"
+          >
+            <p class="g-pstyle3">San Antonio</p>
+          </div>
+          <div
+            id="g-ai2-7"
+            class="g-Layer_1 g-aiAbs"
+            style="
+              top: 78.97%;
+              left: 80.8834%;
+              margin-left: -7.5833%;
+              width: 15.1667%;
+            "
+          >
+            <p class="g-pstyle4">TX-22</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-top">
+          <div class="legend-label">Underpopulated</div>
+          <div class="legend-label">Even</div>
+          <div class="legend-label">Overpopulated</div>
+        </div>
+        <div class="legend-bottom">
+          <div class="legend-color" style="background: #8c510a"></div>
+          <div class="legend-color" style="background: #d8b365"></div>
+          <div class="legend-color" style="background: #f6e8c3"></div>
+          <div class="legend-color" style="background: #f0f0f0"></div>
+          <div class="legend-color" style="background: #c7eae5"></div>
+          <div class="legend-color" style="background: #5ab4ac"></div>
+          <div class="legend-color" style="background: #01665e"></div>
+        </div>
+      </div>
+
+      <p class="source">Source: U.S. Census Bureau</p>
+
+      <p>
+        The 22nd Congressional District in Texas, the most overpopulated, is a
+        rapidly diversifying area sprawling south of Houston. Donald Trump won
+        this district by eight points in 2016, down from Mitt Romney’s
+        substantially larger 25 point win in 2012. The district is represented
+        by Republican Pete Olson, who announced last year that he is retiring at
+        the end of his term.
+      </p>
+
+      <h3>What this map doesn’t show</h3>
+      <p>
+        Congressional representation is reapportioned every ten years. We wrote
+        about this last year. Some states, like Texas, are expected to gain
+        Congressional representation and therefore districts after
+        reapportionment. Unlike states that will have the same number of
+        districts before and after, redistricting may not necessarily shrink
+        those overpopulated districts. That’s because the state’s target
+        population for districts will be adjusted to take into account a greater
+        number of districts. There, you will see additional districts added –
+        likely in high population growth areas.
+      </p>
+
+      <h3>Our redistricting and gerrymandering work</h3>
+      <p>
+        Azavea has a long history of working on projects related to
+        redistricting, gerrymandering, and elections. We’re excited to launch
+        <a href="https://districtbuilder.org">DistrictBuilder</a> later this
+        year and offer consulting services for redistricting preparedness.
+        <a href="mailto:analytics@azavea.com">Contact us</a> if you are
+        interested in redistricting consulting or
+        <a
+          href="https://districtbuilder.us1.list-manage.com/subscribe?u=61da999c9897859f1c1fff262&id=70fdf1ae35"
+          >sign up</a
+        >
+        to receive updates on DistrictBuilder.
+      </p>
+    </div>
+    <footer>
+      <div class="container">
+        <div class="footer-wrapper">
+          <a href="https://districtbuilder.org"
+            ><img
+              class="logo"
+              width="190"
+              height="28"
+              src="img/db-logo.svg"
+              alt=""
+          /></a>
+          <nav></nav>
+        </div>
+      </div>
+    </footer>
+    <script
+      src="//api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"
+      type="text/javascript"
+    ></script>
+    <script type="module" src="js/main.js" type="text/javascript"></script>
+  </body>
+</html>
